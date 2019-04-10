@@ -1,2 +1,2 @@
 # Paint-Box
-Capstone Project
+Capstone Projects
