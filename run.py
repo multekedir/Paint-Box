@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
@@ -9,7 +9,7 @@ def hello():
 @app.route('/user/<username>')
 def show_subpath(username):
     # show the subpath after /path/
-    return 'Subpath %s' % subpath'
+    return ('Subpath %s' % username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
