@@ -24,10 +24,14 @@ class Process:
 class Project:
     """A simple example class"""
 
-    def __init__(self, name):
+    def __init__(self, name, id):
          self.tag_list = []
          self.name = name
          self.process_list = []
+         self.id = id
+    
+    def get_id(self):
+        return self.id
 
     def add_tag(self, tags):
         self.tag_list.append(tags)
