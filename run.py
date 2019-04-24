@@ -5,16 +5,6 @@ app.config["DEBUG"] = True
 
 projects = []
 
-def get_id(name):
-    index = 0
-    for i in projects:
-        if i.get_name() == name:
-            return index
-        index += 1 
-    return None
-
-
-
 @app.route("/index", methods=['GET', 'POST'])
 def home():
     user = {'username': 'Miguel'}
