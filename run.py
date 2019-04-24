@@ -30,6 +30,10 @@ def show_subpath(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        '''
+         @todo login
+         @body Create a view for login page
+         '''
         return "do_the_login()"
     else:
         return "show_the_login_form()"
