@@ -7,13 +7,26 @@ body {
     font-style: normal;
 }
 
-table{
+table {
     width: 50%;
     margin: auto;
     padding: 10px;
 }
 
 
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
 
+.wrapper div{
+    background-color: #0c5a4c;
+    color: #fcfffb;
+    font-weight: 400;
+    font-size: larger;
+    padding: 20px;
 
+}
 

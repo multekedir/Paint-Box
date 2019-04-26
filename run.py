@@ -1,14 +1,13 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, url_for, redirect
 from modules import Project
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-
 projects = []
 
 
-@app.route("/index", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def home():
     user = {'username': 'Miguel'}
     pro = None
@@ -19,16 +18,21 @@ def home():
     return render_template('index.html', title='Home', user=user, projects=projects)
 
 
-@app.route('/project/<num>', methods=['GET', 'POST'])
+@app.route('/project/<int:num>', methods=['GET', 'POST'])
 def project(num):
-
     return render_template('project.html', title='project', project=projects[num], id=num)
 
 
-@app.route('/add_tag/<num>', methods=['POST'])
+@app.route('/add_tag/<int:num>', methods=['POST'])
 def add_tag(num):
     projects[num].add_tag(request.form.get('tag'))
-    return render_template('project.html', title='project', project=projects[num], id=num)
+    return redirect(url_for('project', num=num))
+
+
+@app.route('/add_process/<int:num>', methods=['POST'])
+def add_process(num):
+    projects[num].add_process(request.form.get('process'))
+    return redirect(url_for('project', num=num))
 
 
 @app.route('/login', methods=['GET', 'POST'])
