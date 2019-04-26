@@ -1,39 +1,35 @@
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Basic Bootstrap Template</title>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <!-- Optional Bootstrap theme -->
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-  </head>
-  <body>
-    <div class="container">
-        <main>
-            <form action = "/index" method = "POST">
-                <p>Name <input type = "text" name = "name" /></p>
-                <p><input type = "submit" value = "submit" /></p>
+
+{% extends "base.html" %}
+
+{% block title %} Home-- {% endblock %}
+
+
+{% block main %}
+    <main>
+        <div class="container">
+
+            <form action="/" method="POST">
+                <p> Name of the Project <input type="text" name="name"/></p>
+                <p><input type="submit" value="submit"/></p>
             </form>
-            {% if projects|length  != 0%}
-                <table border = 1>
-                    <tr>
-                    {% for item in projects %}
-                       
-                        
-                        <th>
-                            <a href="project/{{item.get_id()}}">{{item.get_name()}}</a>
-                        </th>
-                        
-                    {% endfor %}
-                    </tr>
-                    
-                </table>
+            <table border=1>
+            {% if projects|length  != 0 %}
+                <h1>Projects</h1>
+                 {% for item in projects %}
+                     <tr>
+                         <td>
+                            <a href="project/{{ item.get_id() }}">{{ item.get_name() }}</a>
+                        </td>
+                     </tr>
+                {% endfor %}
             {% endif %}
-        </main>
-      </main>
-    </div>
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>  
-  </body>
-</html>
+            </table>
+        </div>
+    </main>
+{% endblock %}
+
+{% block script %}
+    <!--static js files static/js/-->
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
+

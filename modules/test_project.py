@@ -1,4 +1,4 @@
-import Project
+from modules import Project
 
 pro = Project.Project("test")
 
