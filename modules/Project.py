@@ -1,19 +1,21 @@
 class Process:
-    def __init__ (self, name):
-        self.name  = name
+    def __init__(self, name):
+        self.name = name
+        self.description = ""
+        self.img_url = ""
 
     def set_name(self, name):
         self.name = name
 
     def set_description(self, des):
         self.description = des
-    
+
     def set_img(self, url):
         self.img_url = url
-    
+
     def get_name(self):
         return self.name
-    
+
     def get_description(self):
         return self.description
 
@@ -24,12 +26,12 @@ class Process:
 class Project:
     """A simple example class"""
 
-    def __init__(self, name, id):
-         self.tag_list = []
-         self.name = name
-         self.process_list = []
-         self.id = id
-    
+    def __init__(self, name, num):
+        self.tag_list = []
+        self.name = name
+        self.process_list = []
+        self.id = num
+
     def get_id(self):
         return self.id
 
@@ -39,7 +41,7 @@ class Project:
     def remove_tag(self, tag):
         index = self.tag_list.index(tag)
         del self.tag_list[index]
-    
+
     def get_tags(self):
         return self.tag_list
 
@@ -55,10 +57,3 @@ class Project:
 
     def get_processes(self):
         return self.process_list
-
-
-
-    
-
-    
-        
