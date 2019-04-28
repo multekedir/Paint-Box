@@ -31,12 +31,17 @@ class Project:
         self.name = name
         self.process_list = []
         self.id = num
+        self.description = ""
 
     def get_id(self):
         return self.id
 
     def add_tag(self, tags):
-        self.tag_list.append(tags)
+        if isinstance(tags, list):
+            for i in tags:
+                self.tag_list.append(i)
+        else:
+            self.tag_list.append(tags)
 
     def remove_tag(self, tag):
         index = self.tag_list.index(tag)
@@ -50,6 +55,12 @@ class Project:
 
     def get_name(self):
         return self.name
+
+    def set_description(self, description):
+        self.description = description
+
+    def get_description(self):
+        return self.description
 
     def add_process(self, name):
         pro = Process(name)

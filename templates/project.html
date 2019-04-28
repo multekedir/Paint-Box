@@ -6,10 +6,12 @@
 
 
 {% block main %}
-    <main>
+
         <div class="container">
 
-            <h1>project {{ project.get_name() }}</h1>
+            <h1 class="page_title">
+                Project {{ project.get_name() }}
+            </h1>
 
             <table>
                 {% for item in project.get_tags()  %}
@@ -38,10 +40,7 @@
             </div>
 
         </div>
-    </main>
-
-
-{% endblock %}
+   {% endblock %}
 
 {% block script %}
     <!--static js files static/js/-->

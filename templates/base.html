@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>{% block title %}{% endblock %}</title>
 
@@ -15,22 +15,40 @@
 
     <!-- FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
 
     <!-- Bootstrap -->
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
-     <!--static css files static/css/-->
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-     {% block style %}{% endblock %}
+    <!--static css files static/css/-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    {% block style %}{% endblock %}
 
-  </head>
-  <body>
-    <nav> {% block nav %}{% endblock %}</nav>
-    <header> {% block header %}{% endblock %}</header>
-    {% block main %}{% endblock %}
-    <footer>{% block footer %}{% endblock %}</footer>
+</head>
 
+<body>
+    <header>
+
+        Paint Box
+        <div class="user_info">
+            <i class="fas fa-user"></i>
+            <span>{{ user.username }} </span>
+        </div>
+        {% block header %}{% endblock %}
+    </header>
+    <nav>
+        {% block nav %}{% endblock %}
+    </nav>
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+    <footer>
+        {% block footer %}{% endblock %}
+    </footer>
     {% block script %}{% endblock %}
-  </body>
+</body>
+
 </html>

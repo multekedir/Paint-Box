@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, url_for, redirect
+
 from modules import Project
 
 app = Flask(__name__)
@@ -10,17 +11,37 @@ projects = []
 @app.route("/", methods=['GET', 'POST'])
 def home():
     user = {'username': 'Miguel'}
-    pro = None
-    if request.method == 'POST':
-        id = len(projects)
-        pro = Project.Project(request.form.get('name'), id)
-        projects.append(pro)
+
     return render_template('index.html', title='Home', user=user, projects=projects)
+
+
+@app.route("/add_project", methods=['POST'])
+def add_project():
+
+    size = len(projects)
+    name = request.form.get('name')
+    desc = request.form.get('desc')
+    tags = request.form.get('tag')
+    print("Adding name:%s description:  %s tag:  %s" % (name, desc, tags))
+    pro = Project.Project(name, size)
+    if desc:
+        pro.set_description(desc)
+    if tags:
+        pro.add_tag(tags.split(','))
+
+    projects.append(pro)
+
+    return redirect(url_for('home'))
 
 
 @app.route('/project/<int:num>', methods=['GET', 'POST'])
 def project(num):
-    return render_template('project.html', title='project', project=projects[num], id=num)
+    user = {'username': 'Miguel'}
+    '''
+             @todo figure out a way to get user name
+             @body figure out a way to get user name
+    '''
+    return render_template('project.html', title='project', project=projects[num], id=num, user=user)
 
 
 @app.route('/add_tag/<int:num>', methods=['POST'])

@@ -1,31 +1,74 @@
-
 {% extends "base.html" %}
 
 {% block title %} Home-- {% endblock %}
 
 
 {% block main %}
-    <main>
-        <div class="container">
 
-            <form action="/" method="POST">
-                <p> Name of the Project <input type="text" name="name"/></p>
-                <p><input type="submit" value="submit"/></p>
-            </form>
-            <table border=1>
+          <div class="container">
+
+
+            <div id="myModal" class="modal fade">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <!-- Header -->
+                        <div class="modal-header">
+                            <h1>Add a project</h1>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="modal-body">
+                            <form name="add_project" action="/add_project" onsubmit="return validateForm()" method="POST">
+                                <p>
+                                    Name of the Project
+                                    <input type="text" name="name" required="required" data-error="Please enter your name."   oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Please Enter valid Name')"/>
+                                </p>
+                                <p>
+                                    Tag
+                                    <input type="text" name="tag" placeholder="tag 1, tag 2, tag 3"/>
+                                </p>
+                                <p>
+                                    Description
+                                    <input type="text" name="desc"/>
+                                </p>
+                                <div class="errors"></div>
+                                <!-- Footer -->
+                                <div class="modal-footer modal-footer--mine">
+                                    <input type="submit"  value="submit" class="btn btn-success"/>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <h1 class="page_title">Projects</h1>
             {% if projects|length  != 0 %}
-                <h1>Projects</h1>
-                 {% for item in projects %}
-                     <tr>
-                         <td>
-                            <a href="project/{{ item.get_id() }}">{{ item.get_name() }}</a>
-                        </td>
-                     </tr>
-                {% endfor %}
+                <div class="wrapper">
+                    {% for item in projects %}
+                        <a href="project/{{ item.get_id() }}">
+                            <div id="block_div">
+                                <h2>{{ item.get_name() }}</h2>
+                                <p> {{ item.get_description() }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+            <p>
+                You currently have on projects. Use + button to add a project.
+            </p>
             {% endif %}
-            </table>
+
+
+
+            <a href="#" class="modal_btn fixed-bottom" data-toggle="modal" data-target="#myModal">+</a>
+
+
         </div>
-    </main>
 {% endblock %}
 
 {% block script %}
