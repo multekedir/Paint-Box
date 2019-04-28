@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,13 +31,16 @@
 
 <body>
     <header>
-
-        Paint Box
-        <div class="user_info">
-            <i class="fas fa-user"></i>
-            <span>{{ user.username }} </span>
+        <div class="main_header">
+            <span>Paint Box</span>
+            <div class="user_info">
+                <i class="fas fa-user"></i>
+                <span>{{ user.username }} </span>
+            </div>
         </div>
-        {% block header %}{% endblock %}
+        <div class="page_header">
+            {% block header %}{% endblock %}
+        </div>
     </header>
     <nav>
         {% block nav %}{% endblock %}

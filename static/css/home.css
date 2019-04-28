@@ -6,7 +6,7 @@ body {
     font-style: normal;
 }
 
-header{
+header .main_header{
     background-color: black;
     height: 50px;
     width: 100%;
@@ -17,8 +17,16 @@ header{
     vertical-align: middle;
 }
 
+header .page_header{
+    width: 100%;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 20px 40px;
+    vertical-align: middle;
+}
 .page_title {
     margin: 20px 0px;
+    display: inline;
 }
 
 .user_info{
@@ -87,4 +95,8 @@ table {
 .modal_btn:focus {
     color: #fcfffb;
     text-decoration: none;
+}
+
+.float-right{
+    float: right;
 }

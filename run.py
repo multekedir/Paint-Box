@@ -10,9 +10,11 @@ projects = []
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    user = {'username': 'Miguel'}
+    user = {'username': 'Multezem Kedir', "first":"Kedir"}
 
     return render_template('index.html', title='Home', user=user, projects=projects)
+
+
 
 
 @app.route("/add_project", methods=['POST'])

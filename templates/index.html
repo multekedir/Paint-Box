@@ -2,73 +2,96 @@
 
 {% block title %} Home-- {% endblock %}
 
+{% block header %}
+    <h1 class="page_title">Projects</h1>
 
+    <form class="navbar-form" role="search" style="float: right;">
+        <div class="input-group add-on">
+            <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
 {% block main %}
 
-          <div class="container">
+    <div class="container">
 
 
-            <div id="myModal" class="modal fade">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                        <!-- Header -->
-                        <div class="modal-header">
-                            <h1>Add a project</h1>
-                        </div>
-
-                        <!-- Body -->
-                        <div class="modal-body">
-                            <form name="add_project" action="/add_project" onsubmit="return validateForm()" method="POST">
-                                <p>
-                                    Name of the Project
-                                    <input type="text" name="name" required="required" data-error="Please enter your name."   oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Please Enter valid Name')"/>
-                                </p>
-                                <p>
-                                    Tag
-                                    <input type="text" name="tag" placeholder="tag 1, tag 2, tag 3"/>
-                                </p>
-                                <p>
-                                    Description
-                                    <input type="text" name="desc"/>
-                                </p>
-                                <div class="errors"></div>
-                                <!-- Footer -->
-                                <div class="modal-footer modal-footer--mine">
-                                    <input type="submit"  value="submit" class="btn btn-success"/>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </form>
-                        </div>
-
-
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h1>Add a project</h1>
                     </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <form name="add_project" action="/add_project" onsubmit="return validateForm()" method="POST">
+                            <div class="form-group">
+                                <label for="name">Name of the Project</label>
+                                <input type="text" class="form-control" id="name"
+                                       name="name" placeholder="Enter Project Name"
+                                       required="required" data-error="Please enter your name."
+                                       oninput="setCustomValidity('')"
+                                       oninvalid="this.setCustomValidity('Please Enter valid Name')"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="tag">Project Tags</label>
+                                <input type="text" class="form-control" id="tag"
+                                       placeholder="Enter tags separated by comma "
+                                       name="tag" aria-describedby="tagHelp">
+                                <small id="tagHelp" class="form-text text-muted">tag 1, tag 2, tag 3</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Project Description</label>
+                                <textarea class="form-control" id="desc" rows="3"
+                                          name="desc" placeholder="Enter Project Description">
+                                </textarea>
+                            </div>
+                            <div class="errors"></div>
+                            <!-- Footer -->
+                            <div class="modal-footer modal-footer--mine">
+                                <input type="submit" value="submit" class="btn btn-success"/>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+
+
                 </div>
             </div>
-            <h1 class="page_title">Projects</h1>
-            {% if projects|length  != 0 %}
-                <div class="wrapper">
-                    {% for item in projects %}
-                        <a href="project/{{ item.get_id() }}">
-                            <div id="block_div">
+        </div>
+
+
+        {% if projects|length  != 0 %}
+            <div class="wrapper">
+                {% for item in projects %}
+                        <div id="block_div">
+                            <a href="project/{{ item.get_id() }}">
                                 <h2>{{ item.get_name() }}</h2>
                                 <p> {{ item.get_description() }}</p>
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
-            {% else %}
+                             </a>
+                            <button class="btn btn-danger float-right" type="button" onclick="alert('Hello world!')"><i class="fas fa-trash"></i></button>
+                        </div>
+
+                {% endfor %}
+            </div>
+        {% else %}
             <p>
                 You currently have on projects. Use + button to add a project.
             </p>
-            {% endif %}
+        {% endif %}
 
 
 
-            <a href="#" class="modal_btn fixed-bottom" data-toggle="modal" data-target="#myModal">+</a>
+        <a href="#" class="modal_btn fixed-bottom" data-toggle="modal" data-target="#myModal">+</a>
 
 
-        </div>
+    </div>
 {% endblock %}
 
 {% block script %}
