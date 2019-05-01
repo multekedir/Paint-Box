@@ -44,15 +44,15 @@ table {
 
 
 .wrapper {
+    margin: 50px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(100px, auto);
-    width: 200px;
 }
 
 
-#block_div {
+#block_div{
     background-color: #0c5a4c;
     color: #fcfffb;
     font-weight: 400;
@@ -61,6 +61,11 @@ table {
     word-break: break-word;
     width: 350px;
 
+}
+
+#block_div a{
+    text-decoration: none;
+    color: inherit;
 }
 #block_div h2{
     border-bottom: 2px solid;
@@ -99,4 +104,19 @@ table {
 
 .float-right{
     float: right;
+}
+
+.add{
+    justify-content: flex-end;
+}
+.project_info {
+    padding: 10px 0px;
+    margin: 10px 0px;
+    display: inline-block;
+
+}
+.project_info h1{
+    margin: 0px;
+    padding:0px;
+
 }

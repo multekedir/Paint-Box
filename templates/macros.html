@@ -1,0 +1,48 @@
+{% macro add_form(somevalue) %}
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Header -->
+                <div class="modal-header">
+                    <h1>Add a project</h1>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+                    <form name="add_project" action="/add_project" onsubmit="return validateForm()" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name of the Project</label>
+                            <input type="text" class="form-control" id="name"
+                                   name="name" placeholder="Enter Project Name"
+                                   required="required" data-error="Please enter your name."
+                                   oninput="setCustomValidity('')"
+                                   oninvalid="this.setCustomValidity('Please Enter valid Name')"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="tag">Project Tags</label>
+                            <input type="text" class="form-control" id="tag"
+                                   placeholder="Enter tags separated by comma "
+                                   name="tag" aria-describedby="tagHelp">
+                            <small id="tagHelp" class="form-text text-muted">tag 1, tag 2, tag 3</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="desc">Project Description</label>
+                            <textarea class="form-control" id="desc" rows="3"
+                                      name="desc" placeholder="Enter Project Description">
+                                    </textarea>
+                        </div>
+                        <div class="errors"></div>
+                        <!-- Footer -->
+                        <div class="modal-footer modal-footer--mine">
+                            <input type="submit" value="submit" class="btn btn-success"/>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endmacro %}

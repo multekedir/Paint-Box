@@ -7,40 +7,125 @@
 
 {% block main %}
 
-        <div class="container">
-
-            <h1 class="page_title">
-                Project {{ project.get_name() }}
-            </h1>
-
-            <table>
-                {% for item in project.get_tags()  %}
-                     <tr>
-                     {{ item }}
-                     </tr>
+    <div class="container">
+        <div class="project_info">
+            <h1>Project {{ project.get_name() }}  </h1>
+            tags:
+            <table style=" padding: 0px; margin: 0px; ">
+                {% for tag in project.get_tags() %}
+                    <tr>
+                        <span class="text-muted"> {{ tag }} </span>
+                    </tr>
                 {% endfor %}
-
             </table>
-            <form action="/add_tag/{{ id }}" method="POST">
-                <p>Enter a tag <input type="text" name="tag"/></p>
-                <p><input type="submit" value="submit"/></p>
-            </form>
-
-            <h2>Processes</h2>
-
-             <form action="/add_process/{{ id }}" method="POST">
-                <p>Enter Process Name <input type="text" name="process"/></p>
-                <p><input type="submit" value="submit"/></p>
-            </form>
-
-            <div class="wrapper">
-                {% for item in project.get_processes()  %}
-                    <div>{{ item.get_name() }}</div>
-                {% endfor %}
-            </div>
-
         </div>
-   {% endblock %}
+        <div id="edit_modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h1>Edit {{ project.get_name() }}</h1>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <form  action="/make_change/{{ id }}" onsubmit="return validateForm()"
+                              method="POST">
+                            <div class="form-group">
+                                <label for="name">Name of the Project</label>
+                                <input type="text" class="form-control" id="name"
+                                       name="name" value="{{ project.get_name() }}"
+                                       required="required" data-error="Please enter your name."
+                                       oninput="setCustomValidity('')"
+                                       oninvalid="this.setCustomValidity('Please Enter valid Name')"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="tag">Project Tags</label>
+                                <input type="text" class="form-control" id="tag"
+                                       value="{{ project.get_tags_csv() }}"
+                                       name="tag" aria-describedby="tagHelp">
+                                <small id="tagHelp" class="form-text text-muted">tag 1, tag 2, tag 3</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Project Description</label>
+                                <textarea class="form-control" id="desc" rows="3"
+                                          name="desc" value="{{ project.get_description() }}">
+                                        {{ project.get_description() }}
+                                </textarea>
+                            </div>
+                            <div class="errors"></div>
+                            <!-- Footer -->
+                            <div class="modal-footer modal-footer--mine">
+                                <button class="btn  btn-primary"
+                                        name="data" value="edit"
+                                        type="submit" id="edit">
+                                    Edit <i class="fas fa-edit" style="font-size:12px"></i>
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="delete_modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h1>Deleting Project {{ project.get_name() }}</h1>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <p>Are sure you want to delete the project?</p>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer modal-footer--mine">
+                        <form action="/make_change/{{ id }}" method="POST" class="float-right">
+                            <button class="btn  btn-danger"
+                                    name="data" value="delete"
+                                    type="submit" id="delete">Delete <i
+                                    class="fas fa-trash" style="font-size:12px"></i></button>
+                        </form>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <button class="float-right btn  btn-primary" data-toggle="modal" data-target="#edit_modal">
+            Edit <i class="fas fa-edit" style="font-size:12px"></i></button>
+        <button class="float-right btn  btn-danger" data-toggle="modal" data-target="#delete_modal">
+            Delete <i class="fas fa-trash" style="font-size:12px"></i></button>
+
+
+        <form action="/add_tag/{{ id }}" method="POST">
+            <p>Enter a tag <input type="text" name="tag"/></p>
+            <p><input type="submit" value="submit"/></p>
+        </form>
+
+        <h2>Processes</h2>
+
+        <form action="/add_process/{{ id }}" method="POST">
+            <p>Enter Process Name <input type="text" name="process"/></p>
+            <p><input type="submit" value="submit"/></p>
+        </form>
+
+        <div class="wrapper">
+            {% for item in project.get_processes() %}
+                <div>{{ item.get_name() }}</div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
 
 {% block script %}
     <!--static js files static/js/-->
