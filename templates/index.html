@@ -1,31 +1,52 @@
-
+{% from 'macros.html' import add_form %}
 {% extends "base.html" %}
 
 {% block title %} Home-- {% endblock %}
 
+{% block header %}
+    <h1 class="page_title">Projects</h1>
 
-{% block main %}
-    <main>
-        <div class="container">
-
-            <form action="/" method="POST">
-                <p> Name of the Project <input type="text" name="name"/></p>
-                <p><input type="submit" value="submit"/></p>
-            </form>
-            <table border=1>
-            {% if projects|length  != 0 %}
-                <h1>Projects</h1>
-                 {% for item in projects %}
-                     <tr>
-                         <td>
-                            <a href="project/{{ item.get_id() }}">{{ item.get_name() }}</a>
-                        </td>
-                     </tr>
-                {% endfor %}
-            {% endif %}
-            </table>
+    <form class="navbar-form"  style="width: 50%; margin: auto;">
+        <div class="input-group add-on">
+            <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+            <div class="input-group-btn" style="background: #DDDDDD;">
+                <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
+            </div>
         </div>
-    </main>
+    </form>
+{% endblock %}
+{% block main %}
+
+    <div class="row">
+
+
+
+        {{ add_form(1) }}
+
+        {% if projects|length  != 0 %}
+            <div class="wrapper">
+                {% for item in projects %}
+                    <div id="block_div">
+                        <a href="project/{{ item.get_id() }}">
+                            <h2>{{ item.get_name() }}</h2>
+                            <p> {{ item.get_description() }}</p>
+                        </a>
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>
+                You currently have on projects. Use + button to add a project.
+            </p>
+        {% endif %}
+
+
+
+        <a href="#" class="add modal_btn" data-toggle="modal" data-target="#myModal">+</a>
+
+
+    </div>
 {% endblock %}
 
 {% block script %}

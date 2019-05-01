@@ -1,10 +1,41 @@
 
 body {
     margin: 0 auto;
-    padding: 15px;
     width: 100%;
     font-family: 'Inconsolata', monospace;
     font-style: normal;
+}
+.main_header{
+    background-color: black;
+    width: 100%;
+    vertical-align: middle;
+}
+header .main_header{
+
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+    padding: 10px;
+
+}
+
+header .page_header{
+    width: 100%;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 20px 40px;
+    vertical-align: middle;
+}
+.page_title {
+    margin: 20px 0px;
+    display: inline;
+}
+
+.user_info{
+    float: right;
+    color: #fcfffb;
+    font-size: 18px;
+    font-weight: normal;
 }
 
 table {
@@ -15,18 +46,89 @@ table {
 
 
 .wrapper {
+    margin: 50px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(100px, auto);
 }
 
-.wrapper div{
+
+#block_div{
     background-color: #0c5a4c;
     color: #fcfffb;
     font-weight: 400;
     font-size: larger;
     padding: 20px;
+    word-break: break-word;
+    width: 350px;
 
 }
 
+#block_div a{
+    text-decoration: none;
+    color: inherit;
+}
+#block_div h2{
+    border-bottom: 2px solid;
+}
+
+#block_div:hover {
+    background-color: #116f5d;
+}
+
+.modal_btn {
+    display: inline-block;
+    color: #fcfffb;
+    background-color: darkgreen;
+    font-weight: 900;
+    font-size: 50px;
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 100px;
+}
+
+.modal_btn:hover {
+    background-color: lawngreen;
+    color: #fcfffb;
+    text-decoration: none;
+}
+
+.modal_btn:focus {
+    color: #fcfffb;
+    text-decoration: none;
+}
+
+.float-right{
+    float: right;
+}
+
+.add{
+    justify-content: flex-end;
+}
+.project_info {
+    padding: 10px 0px;
+    margin: 10px 0px;
+    display: inline-block;
+
+}
+.project_info h1{
+    margin: 0px;
+    padding:0px;
+
+}
+
+.footer{
+   position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
