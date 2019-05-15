@@ -1,0 +1,128 @@
+
+
+{% extends "base.html" %}
+
+{% block title %} project {{ project.get_name() }} {% endblock %}
+
+
+{% block main %}
+
+    <div class="col-sm-9 col-md-7 col-lg-15 mx-auto"">
+        <div class="project_info">
+            <h1>Project {{ project.get_name() }}  </h1>
+            tags:
+            <table style=" padding: 0; margin: 0; ">
+                {% for tag in project.get_tags() %}
+                    <tr>
+                        <span class="text-muted"> {{ tag }} </span>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="edit_modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h1>Edit {{ project.get_name() }}</h1>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <form  action="/make_change/{{ project.get_name() }}" onsubmit="return validateForm()"
+                              method="POST">
+                            <div class="form-group">
+                                <label for="name">Name of the Project</label>
+                                <input type="text" class="form-control" id="name"
+                                       name="name" value="{{ project.get_name() }}"
+                                       required="required" data-error="Please enter your name."
+                                       oninput="setCustomValidity('')"
+                                       oninvalid="this.setCustomValidity('Please Enter valid Name')"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="tag">Project Tags</label>
+                                <input type="text" class="form-control" id="tag"
+                                       value="{{ project.get_tags_csv() }}"
+                                       name="tag" aria-describedby="tagHelp">
+                                <small id="tagHelp" class="form-text text-muted">tag 1, tag 2, tag 3</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="desc">Project Description</label>
+                                <textarea class="form-control" id="desc" rows="3"
+                                          name="desc" value="{{ project.get_description() }}">
+                                        {{ project.get_description() }}
+                                </textarea>
+                            </div>
+                            <div class="errors"></div>
+                            <!-- Footer -->
+                            <div class="modal-footer modal-footer--mine">
+                                <button class="btn  btn-primary"
+                                        name="data" value="edit"
+                                        type="submit" id="edit">
+                                    Edit <i class="fas fa-edit" style="font-size:12px"></i>
+                                </button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="delete_modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h1>Deleting Project {{ project.get_name() }}</h1>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <p>Are sure you want to delete the project?</p>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer modal-footer--mine">
+                        <form action="/make_change/{{ id }}" method="POST" class="float-right">
+                            <button class="btn  btn-danger"
+                                    name="data" value="delete"
+                                    type="submit" id="delete">Delete <i
+                                    class="fas fa-trash" style="font-size:12px"></i></button>
+                        </form>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <button class="float-right btn  btn-primary" data-toggle="modal" data-target="#edit_modal">
+            Edit <i class="fas fa-edit" style="font-size:12px"></i></button>
+        <button class="float-right btn  btn-danger" data-toggle="modal" data-target="#delete_modal">
+            Delete <i class="fas fa-trash" style="font-size:12px"></i></button>
+
+        <h2>Stages</h2>
+
+        <form action="/add_process/{{ id }}" method="POST">
+            <p>Enter Process Name <input type="text" name="process"/></p>
+            <p><input type="submit" value="submit"/></p>
+        </form>
+
+{#        <div class="wrapper">#}
+{#            {% for item in project.get_processes() %}#}
+{#                <div>{{ item.get_name() }}</div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <!--static js files static/js/-->
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
+

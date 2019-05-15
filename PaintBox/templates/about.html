@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+
+{% block title %} Home-- {% endblock %}
+
+{% block main %}
+    <div class="col-sm-9 col-md-7 col-lg-15 mx-auto">
+        <h1 class="page_title">About <br></h1>
+       {{ message }}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <!--static js files static/js/-->
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
+

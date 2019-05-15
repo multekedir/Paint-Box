@@ -1,0 +1,57 @@
+{% from 'macros.html' import add_form %}
+{% extends "base.html" %}
+
+{% block title %} Home-- {% endblock %}
+
+{% block header %}
+    <h1 class="page_title">Projects</h1>
+
+    <form class="navbar-form"  style="width: 50%; margin: auto;">
+        <div class="input-group add-on">
+            <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+            <div class="input-group-btn" style="background: #DDDDDD;">
+                <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block main %}
+
+    <div class="col-sm-9 col-md-7 col-lg-15 mx-auto"">
+
+
+
+        {{ add_form() }}
+
+        {% if projects|length  != 0 %}
+            <div class="wrapper">
+                {% for item in projects %}
+                    <div id="block_div">
+                        <a href="project/{{ item.get_id() }}">
+                            <h2>{{ item.get_name() }}</h2>
+                            <p> {{ item.get_description() }}</p>
+                        </a>
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>
+                You currently have on projects. Use + button to add a project.
+            </p>
+        {% endif %}
+
+
+
+        <a href="#" class="add modal_btn" data-toggle="modal" data-target="#myModal">+</a>
+
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <!--static js files static/js/-->
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
+
