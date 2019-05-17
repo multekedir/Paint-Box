@@ -8,7 +8,7 @@ from config import Config
 
 import logging
 
-# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.FATAL)
 
 app = Flask(__name__)
 print("Adding configs ")

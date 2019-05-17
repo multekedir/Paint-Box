@@ -1,3 +1,6 @@
+from sqlalchemy import UniqueConstraint
+from sqlalchemy.exc import IntegrityError
+
 from PaintBox import db, logging
 
 from datetime import datetime
@@ -44,27 +47,39 @@ class DBtags(db.Model):
     def __repr__(self):
         return f"Project('{self.name}', '{self.project_id}')"
 
+    def delete (self):
+        logging.info(f"Deleting Tag {self.name}")
+        db.session.delete(self)
+        db.session.commit()
+
 
 class DBproject(db.Model, object):
     __tablename__ = 'project'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     description = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tags = db.relationship('DBtags', backref='pro', lazy=True)
 
+    __table_args__ = (UniqueConstraint('user_id', 'name', name='_name_user'),)
+
     def __repr__(self):
         return f"Project('{self.name}', '{self.date_posted}')"
 
+    def delete (self):
+        print("Deleting project")
+        for i in self.get_tag_dbs():
+            i.delete()
+        db.session.delete(self)
+        db.session.commit()
+
     def set_name(self, name):
         self.name = name
-        db.session.commit()
 
     def set_description(self, description):
         self.description = description
-        db.session.commit()
 
     def get_description(self):
         return self.description
@@ -72,16 +87,47 @@ class DBproject(db.Model, object):
     def get_name(self):
         return self.name
 
+    def update_project(self, newname, newtags, newdescription):
+        """
+        Checks if there is a change and applies the change to a
+        newname, newtag, or newdescription.
+        :param name: str
+        :param newname: str
+        :param newtags: list
+        :param newdescription: str
+        :return:
+        """
+        # get old project
+        try:
+            if self.name is not newname:
+                self.set_name(newname)
+
+            # check if tags are diferent
+            if set(newtags) != set(self.get_tags()):
+                self.add_tag(newtags.split(','))
+
+            # check if descriptions match
+            if self.description is not newdescription:
+                self.set_description(newdescription)
+        except AssertionError as e:
+            db.session.rollback()
+            return "tag_error"
+        db.session.commit()
+        return "Project updated"
+
     def add_tag(self, tags):
         logging.debug(f'Adding a tag to DB {tags}')
-        db.session.commit()
+        old_tags = self.get_tags()
         # if we are given a list
-        if isinstance(tags, list):
-            for i in tags:
+        if isinstance(tags, list) and not []:
+            # remove duplicates
+            for i in list(set(tags)):
+                # check if tag already exist
+               # assert (i not in old_tags), "Tag already exist"
                 db.session.add(DBtags(name=i, pro=self))
         else:
+            #assert (tags not in old_tags), "Tag already exist"
             db.session.add(DBtags(name=tags, pro=self))
-        db.session.commit()
 
     def get_tags(self):
         tag_list = []
@@ -91,10 +137,18 @@ class DBproject(db.Model, object):
                 tag_list.append(i.name)
         return tag_list
 
+    def get_tag_dbs(self):
+        tag_list = []
+        tags = DBtags.query.filter_by(pro=self).all()
+        if tags is not None:
+            for i in tags:
+                tag_list.append(i)
+        return tag_list
+
     def get_tags_csv(self):
         data = self.get_tags()
-        if data is not  None:
-            return ','.join(map(str, self.get_tags()))
+        if data is not None:
+            return ','.join(map(str, self.get_tags))
         return ""
 
 
@@ -116,15 +170,14 @@ class Project:
 
     def add_tag(self, tags, projectname):
         logging.debug(f'Adding a tag to DB {tags}')
-        project = DBproject.query.filter_by(name=self.name).first()
-        db.session.commit()
+
         # if we are given a list
         if isinstance(tags, list):
             for i in tags:
-                db.session.add(DBtags(name=tags, pro=project))
+                db.session.add(DBtags(name=tags, pro=self))
                 self.tag_list.append(i)
         else:
-            db.session.add(DBtags(name=tags, pro=project))
+            db.session.add(DBtags(name=tags, pro=self))
             self.tag_list.append(tags)
         db.session.commit()
 
@@ -171,8 +224,11 @@ def get_db(name):
 
 def add_project(name, user):
     logging.debug('Adding project to DB')
-    db.session.add(DBproject(name=name, description="", author=user))
+    new_project = DBproject(name=name, description="", author=user)
+    db.session.add(new_project)
     db.session.commit()
+
+    return new_project
 
 
 def get_projects(user):

@@ -8,7 +8,7 @@ from PaintBox.modules.database import User
 
 from flask_login import login_user, current_user, logout_user, login_required
 
-projects =[]
+projects = []
 db.create_all()
 
 
@@ -40,14 +40,7 @@ def add_project():
 
     logging.debug("Adding name:%s description:  %s tag:  %s" % (name, desc, tags))
 
-
-    Project.add_project(name, current_user)
-    new_pro = Project.get_db(name)
-
-    if desc:
-        new_pro.set_description(desc)
-    if tags:
-        new_pro.add_tag(tags.split(','))
+    Project.add_project(name, current_user).update_project(name, tags, desc)
 
     flash('Your post has been created!', 'success')
     return redirect(url_for('home'))
@@ -56,37 +49,32 @@ def add_project():
 @app.route('/make_change/<name>', methods=['POST'])
 @login_required
 def make_change(name):
-
-    # if request.form.get("data") == "delete" and num < len(projects):
-    #     #del projects[num]
-    #     return redirect(url_for('home'))
-    # else:
+    #load project
+    pro = Project.get_db(name)
 
     # load info from html form
     newname = request.form.get('name')
     desc = request.form.get('desc')
     tags = request.form.get('tag')
 
-    #
-    pro = Project.get_db(name)
-    pro.set_name(newname)
-    if desc:
-        pro.set_description(desc)
-    if tags:
-        pro.add_tag(tags.split(','))
+    if request.form.get("data") == "delete":
+        pro.delete()
+        return redirect(url_for('home'))
+    elif pro.update_project(newname, tags, desc) == "tag_error":
+        return redirect(url_for('project', name=name))
+
     return redirect(url_for('project', name=newname))
 
 
 @app.route('/project/<name>', methods=['GET', 'POST'])
 @login_required
 def project(name):
-    return render_template('project.html', title='Project', project=Project.get_db(name),  user=current_user)
+    return render_template('project.html', title='Project', project=Project.get_db(name), user=current_user)
 
 
 @app.route('/add_tag/<int:num>', methods=['POST'])
 @login_required
 def add_tag(num):
-
     projects[num].add_tag(request.form.get('tag'))
     return redirect(url_for('project', num=num))
 
@@ -94,7 +82,6 @@ def add_tag(num):
 @app.route('/add_process/<int:num>', methods=['POST'])
 @login_required
 def add_process(num):
-
     projects[num].add_process(request.form.get('process'))
     return redirect(url_for('project', num=num))
 
@@ -107,17 +94,22 @@ def register():
         return redirect(url_for('home'))
     if request.method == 'POST':
         try:
-            # hash password
-            new_user.add_user(request.form.get("username"), request.form.get("firstname"), request.form.get("lastname"),
-                              request.form.get("email"), request.form.get("password"),
-                              request.form.get("password_confirm"))
 
-            flash('Your account has been created! You are now able to log in', 'success')
-            return redirect(url_for('login'))
+            if (new_user.add_user(request.form.get("username"), request.form.get("firstname"),
+                                  request.form.get("lastname"),
+                                  request.form.get("email"), request.form.get("password"),
+                                  request.form.get("password_confirm")) is True):
+
+                # account has been created!
+                return redirect(url_for('login'))
+            else:
+                error = "ERROR! Passwords don't match"
         except IntegrityError:
             db.session.rollback()
-            error = 'ERROR! Email ({}) already exists.'.format(request.form.get('email'))
+            error = 'ERROR! Email or Username already exists.'
             # flash('ERROR! Email ({}) already exists.'.format(request.form.get('email')), 'error')
+        except AssertionError as e:
+            error = e
     return render_template('register.html', error=error)
 
 
