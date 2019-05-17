@@ -10,6 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 projects = []
 
+# db.create_all()
 
 
 @app.route("/about", methods=['GET', 'POST'])
@@ -18,8 +19,8 @@ def about():
     return render_template('about.html', message=message, user=message, title='About')
 
 
-@app.route("/home", methods=['GET', 'POST'])
 @app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
     print("*" * 100)
@@ -44,7 +45,7 @@ def add_project():
         Project.add_project(name, current_user).update_project(name, tags, desc)
     except IntegrityError:
         db.session.rollback()
-        error = {"messages":"Project already exists :( ", "show":True}
+        error = {"messages": "Project already exists :( ", "show": True}
         return redirect(url_for('home'))
     flash('Your post has been created!', 'success')
     return redirect(url_for('home'))
@@ -53,7 +54,7 @@ def add_project():
 @app.route('/make_change/<name>', methods=['POST'])
 @login_required
 def make_change(name):
-    #load project
+    # load project
     pro = Project.get_db(name)
 
     # load info from html form
