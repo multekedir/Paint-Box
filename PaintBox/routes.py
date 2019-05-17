@@ -11,6 +11,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 projects = []
 
 
+
 @app.route("/about", methods=['GET', 'POST'])
 def about():
     message = "Paint-Box is an application designed for tabletop hobbyists to help keep track of projects in one place."
@@ -36,11 +37,15 @@ def add_project():
     name = request.form.get('name')
     desc = request.form.get('desc')
     tags = request.form.get('tag')
+    try:
 
-    logging.debug("Adding name:%s description:  %s tag:  %s" % (name, desc, tags))
+        logging.debug("Adding name:%s description:  %s tag:  %s" % (name, desc, tags))
 
-    Project.add_project(name, current_user).update_project(name, tags, desc)
-
+        Project.add_project(name, current_user).update_project(name, tags, desc)
+    except IntegrityError:
+        db.session.rollback()
+        error = {"messages":"Project already exists :( ", "show":True}
+        return redirect(url_for('home'))
     flash('Your post has been created!', 'success')
     return redirect(url_for('home'))
 
