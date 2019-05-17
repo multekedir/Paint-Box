@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69e7fdfd-3322-4115-93b8-27b62e6423cf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaintBox/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaintBox/modules/Project.py" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/modules/Project.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PaintBox/modules/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/modules/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaintBox/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaintBox/site.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaintBox/templates/project.html" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/templates/project.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,8 +33,32 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+            <state relative-caret-position="119">
+              <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PaintBox/routes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="25" column="19" lean-forward="true" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+              <folding>
+                <element signature="e#0#68#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PaintBox/modules/database.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,9 +144,9 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/PaintBox/templates/project.html" />
         <option value="$PROJECT_DIR$/PaintBox/__init__.py" />
-        <option value="$PROJECT_DIR$/PaintBox/routes.py" />
         <option value="$PROJECT_DIR$/PaintBox/modules/Project.py" />
         <option value="$PROJECT_DIR$/PaintBox/modules/database.py" />
+        <option value="$PROJECT_DIR$/PaintBox/routes.py" />
         <option value="$PROJECT_DIR$/config.py" />
       </list>
     </option>
@@ -313,12 +330,12 @@
       <workItem from="1557835074383" duration="24637000" />
       <workItem from="1557914780591" duration="19463000" />
       <workItem from="1557945356433" duration="1751000" />
-      <workItem from="1558037890909" duration="24576000" />
+      <workItem from="1558037890909" duration="25125000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="247965000" />
+    <option name="totallyTimeSpent" value="248514000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -333,21 +350,21 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47580644" visible="true" weight="0.21481876" />
-      <window_info id="Structure" order="1" sideWeight="0.5241935" side_tool="true" visible="true" weight="0.21481876" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4751204" visible="true" weight="0.21481876" />
+      <window_info id="Structure" order="1" sideWeight="0.52487963" side_tool="true" visible="true" weight="0.21481876" />
       <window_info id="Favorites" order="2" sideWeight="0.5005417" side_tool="true" weight="0.17857143" />
       <window_info id="Team" order="3" sideWeight="0.50321543" side_tool="true" weight="0.1119403" />
       <window_info active="true" anchor="bottom" id="Inspection Results" order="0" visible="true" weight="0.32822758" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32827735" />
-      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.49946696" weight="0.32502708" />
+      <window_info active="true" anchor="bottom" id="Run" order="3" sideWeight="0.49946696" visible="true" weight="0.32502708" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.39869988" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="7" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="8" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" visible="true" weight="0.32827735" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49946696" weight="0.32827735" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50053304" side_tool="true" weight="0.32827735" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="13" show_stripe_button="false" />
@@ -363,7 +380,7 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/capstone_paintbox$Paint_Box.coverage" NAME="Paint-Box Coverage Results" MODIFIED="1558083012913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/capstone_paintbox$Paint_Box.coverage" NAME="Paint-Box Coverage Results" MODIFIED="1558083757348" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Paint_Box$Paint_Box.coverage" NAME="Paint-Box Coverage Results" MODIFIED="1557941144380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Paint_Box$Flask__run_py_.coverage" NAME="Flask (run.py) Coverage Results" MODIFIED="1557456702822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
@@ -582,8 +599,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PaintBox/modules/database.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="132" column="14" selection-start-line="132" selection-start-column="8" selection-end-line="132" selection-end-column="14" />
+        <state relative-caret-position="323">
+          <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
@@ -592,8 +609,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PaintBox/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="60" column="20" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="20" />
+        <state relative-caret-position="425">
+          <caret line="25" column="19" lean-forward="true" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
           <folding>
             <element signature="e#0#68#0" expanded="true" />
           </folding>
@@ -602,8 +619,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+        <state relative-caret-position="119">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
         </state>
       </provider>
     </entry>

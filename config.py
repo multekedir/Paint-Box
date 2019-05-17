@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     print("confing {}".format(basedir))
-    DEBUG = False
+    DEBUG = True
     DEVELOPMENT = False
     SECRET_KEY = 'why-wh4#*&kfkajdhfkywhyw2hywhy'
     FLASK_SECRET = SECRET_KEY
