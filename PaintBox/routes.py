@@ -10,7 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 projects = []
 
-# db.create_all()
+db.create_all()
 
 
 @app.route("/about", methods=['GET', 'POST'])
