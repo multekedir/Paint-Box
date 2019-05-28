@@ -1,8 +1,10 @@
-from flask import render_template, request, redirect, url_for, flash
+import json
+
+from flask import render_template, request, redirect, url_for, flash, Response
 
 from sqlalchemy.exc import IntegrityError
 
-from PaintBox import db, app, logging
+from PaintBox import db, app, logging, DefaultSettings
 from PaintBox.modules import Project
 from PaintBox.modules.database import User
 
@@ -13,13 +15,20 @@ projects = []
 db.create_all()
 
 
+@app.route("/", methods=['GET', 'POST'])
+def main():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    return render_template('main.html', title='Home', img_uri=DefaultSettings.HOME_SCREEN, icon=DefaultSettings.ICON, project_name=DefaultSettings.PROJECT)
+
+
 @app.route("/about", methods=['GET', 'POST'])
 def about():
     message = "Paint-Box is an application designed for tabletop hobbyists to help keep track of projects in one place."
-    return render_template('about.html', message=message, user=message, title='About')
+    return render_template('about.html', message=message, user=current_user, title='About')
 
 
-@app.route("/", methods=['GET', 'POST'])
+
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
@@ -35,6 +44,10 @@ def home():
 @app.route("/add_project", methods=['POST'])
 @login_required
 def add_project():
+    data = {
+        'added': True,
+        'messages': "Project added :)"
+    }
     name = request.form.get('name')
     desc = request.form.get('desc')
     tags = request.form.get('tag')
@@ -45,10 +58,11 @@ def add_project():
         Project.add_project(name, current_user).update_project(name, tags, desc)
     except IntegrityError:
         db.session.rollback()
-        error = {"messages": "Project already exists :( ", "show": True}
-        return redirect(url_for('home'))
-    flash('Your post has been created!', 'success')
-    return redirect(url_for('home'))
+        data['added'] = False
+        data['messages'] = "Project already exists "
+
+    js = json.dumps(data)
+    return Response(js, status=200, mimetype='application/json')
 
 
 @app.route('/make_change/<name>', methods=['POST'])
@@ -66,9 +80,9 @@ def make_change(name):
         pro.delete()
         return redirect(url_for('home'))
     elif pro.update_project(newname, tags, desc) == "tag_error":
-        return redirect(url_for('project', name=name))
+        return redirect(url_for('project', name=pro.id))
 
-    return redirect(url_for('project', name=newname))
+    return redirect(url_for('project', name=pro.id))
 
 
 @app.route('/project/<name>', methods=['GET', 'POST'])
@@ -76,6 +90,10 @@ def make_change(name):
 def project(name):
     return render_template('project.html', title='Project', project=Project.get_db(name), user=current_user)
 
+@app.route('/todo', methods=['GET', 'POST'])
+@login_required
+def todo():
+    return render_template('todo_macro.html')
 
 @app.route('/add_tag/<int:num>', methods=['POST'])
 @login_required
@@ -143,6 +161,28 @@ def login():
             error = 'Login Unsuccessful. Please check email or password'
 
     return render_template('login.html', title='Login', error=error)
+
+@app.route("/test", methods=['POST'])
+def test():
+
+    data = {
+        'added': True,
+        'messages': "Project already exists "
+    }
+    js = json.dumps(data)
+    return Response(js, status=200, mimetype='application/json')
+
+# @app.route("/test", methods=['POST'])
+# def test():
+#
+#     print(request.form.get('name'))
+#     data = {
+#         'added': False,
+#         'number': 3
+#     }
+#     js = json.dumps(data)
+#     return Response(js, status=200, mimetype='application/json')
+
 
 
 @app.route("/logout")

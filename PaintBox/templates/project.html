@@ -1,13 +1,22 @@
 
-
+{% from 'sidebar_macro.html' import project_view_sidebar %}
 {% extends "base.html" %}
 
 {% block title %} project {{ project.get_name() }} {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/project_display.css') }}">
+{% endblock %}
+
+{% block nav %}
+    {{ project_view_sidebar() }}
+
+{% endblock %}
 
 {% block main %}
 
-    <div class="col-sm-9 col-md-7 col-lg-15 mx-auto"">
+
     <div class="project_info">
         <h1>Project {{ project.get_name() }}  </h1>
         tags:
@@ -30,7 +39,7 @@
 
                 <!-- Body -->
                 <div class="modal-body">
-                    <form action="/make_change/{{ project.get_name() }}" onsubmit="return validateForm()"
+                    <form action="/make_change/{{ project.get_id() }}" onsubmit="return validateForm()"
                           method="POST">
                         <div class="form-group">
                             <label for="name">Name of the Project</label>
@@ -86,7 +95,7 @@
                 </div>
                 <!-- Footer -->
                 <div class="modal-footer modal-footer--mine">
-                    <form action="/make_change/{{ project.get_name() }}" method="POST" class="float-right">
+                    <form action="/make_change/{{ project.get_id() }}" method="POST" class="float-right">
                         <button class="btn  btn-danger"
                                 name="data" value="delete"
                                 type="submit" id="delete">Delete <i
@@ -100,19 +109,6 @@
 
         </div>
     </div>
-
-    <button class="float-right btn  btn-primary" data-toggle="modal" data-target="#edit_modal">
-        Edit <i class="fas fa-edit" style="font-size:12px"></i></button>
-    <button class="float-right btn  btn-danger" data-toggle="modal" data-target="#delete_modal">
-        Delete <i class="fas fa-trash" style="font-size:12px"></i></button>
-{#     {% if showadd %}#}
-{#        <script>#}
-{#        $(document).ready(function(){#}
-{#        $("#edit_modal").modal();#}
-{#         document.getElementById('error').innerText="Tag Error"#}
-{#        });#}
-{#        </script>#}
-{#    {% endif %}#}
     <h2>Stages</h2>
 
     <form action="/add_process/{{ id }}" method="POST">
@@ -120,13 +116,7 @@
         <p><input type="submit" value="submit"/></p>
     </form>
 
-    {#        <div class="wrapper">#}
-    {#            {% for item in project.get_processes() %}#}
-    {#                <div>{{ item.get_name() }}</div>#}
-    {#            {% endfor %}#}
-    {#        </div>#}
 
-    </div>
 {% endblock %}
 
 {% block script %}

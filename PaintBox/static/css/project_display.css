@@ -1,0 +1,30 @@
+
+
+.project {
+    display: inline-block;
+    vertical-align: top;
+    height: 300px;
+    width: 300px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #dadada;
+    border-radius: 3px;
+    background-color: whitesmoke;
+    overflow-wrap: break-word;
+    overflow: hidden;
+}
+
+.project:hover{
+    background-color: #E8E8E8;
+    border: 1px solid #DCDCDC;
+    cursor: pointer;
+}
+
+.project a h2{
+    border-bottom:  1px solid #fcfffb;
+    padding: 10px;
+}
+
+
+
+

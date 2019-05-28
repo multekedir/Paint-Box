@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="site" uuid="759d9618-e051-43b1-b169-792cc49d5ef0">
+    <data-source source="LOCAL" name="db.sqlite" uuid="e89e40a7-369f-4e16-ab30-3a3d1f00ab27">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\kedir\Documents\Class\IS-475\Paint-Box\PaintBox\site.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/PaintBox/db.sqlite</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>

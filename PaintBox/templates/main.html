@@ -1,0 +1,48 @@
+{% from 'add_macro.html' import add_form %}
+{% extends "base_no_header.html" %}
+
+{% block title %} Home-- {% endblock %}
+
+{% block style %} <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> {% endblock %}
+
+{% block main %}
+
+    <div style="
+            background-image: url({{ url_for('static', filename=img_uri) }});
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            width: 100%;">
+            <div style="padding: 40px;" >
+
+            <button class="btn" type="button" data-toggle="collapse" data-target="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">
+                <i class="fa fa-bars" ></i>
+            </button>
+            <div class="collapse" id="collapseMenu">
+                <div class="card card-body" style="width: fit-content;">
+                    <a>Contact</a>
+                    <a>About</a>
+                </div>
+            </div>
+            </div>
+
+
+
+        <div class="bg_cover">
+            <img src="{{ url_for('static', filename=icon) }}">
+            <h1> {{ project_name }}</h1>
+        </div>
+
+        <div class="home_btn">
+            <a class="btn" href="/login">Login</a>
+            <a class="btn" href="/register">Register</a>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <!--static js files static/js/-->
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}

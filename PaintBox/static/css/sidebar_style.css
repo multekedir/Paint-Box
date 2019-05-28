@@ -1,0 +1,44 @@
+#sidebar {
+    width: 300px;
+    position: fixed;
+    top: 95px;
+    left: 0;
+    height: 80vh;
+    /*z-index: 999;*/
+    background: #343a40;
+    color: #fff;
+    transition: all 0.3s;
+}
+#sidebar .sidebar-header {
+    padding: 20px 0px;
+    background: #303030;
+}
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid  #303030;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #303030;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #303030;
+}
+#sidebar.active {
+    margin-left: -300px;
+}
+
+

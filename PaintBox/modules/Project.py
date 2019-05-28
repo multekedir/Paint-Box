@@ -1,6 +1,6 @@
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.exc import IntegrityError
-
+import json
 from PaintBox import db, logging
 
 from datetime import datetime
@@ -47,7 +47,7 @@ class DBtags(db.Model):
     def __repr__(self):
         return f"Project('{self.name}', '{self.project_id}')"
 
-    def delete (self):
+    def delete(self):
         logging.info(f"Deleting Tag {self.name}")
         db.session.delete(self)
         db.session.commit()
@@ -68,7 +68,13 @@ class DBproject(db.Model, object):
     def __repr__(self):
         return f"Project('{self.name}', '{self.date_posted}')"
 
-    def delete (self):
+    def to_dict(self):
+        return dict({'name': self.name, 'id': self.id, 'description': self.description})
+
+    def get_id(self):
+        return self.id
+
+    def delete(self):
         print("Deleting project")
         for i in self.get_tag_dbs():
             i.delete()
@@ -76,6 +82,9 @@ class DBproject(db.Model, object):
         db.session.commit()
 
     def set_name(self, name):
+        self.name = name
+
+    def get_name(self, name):
         self.name = name
 
     def set_description(self, description):
@@ -123,10 +132,10 @@ class DBproject(db.Model, object):
             # remove duplicates
             for i in list(set(tags)):
                 # check if tag already exist
-               # assert (i not in old_tags), "Tag already exist"
+                # assert (i not in old_tags), "Tag already exist"
                 db.session.add(DBtags(name=i, pro=self))
         else:
-            #assert (tags not in old_tags), "Tag already exist"
+            # assert (tags not in old_tags), "Tag already exist"
             db.session.add(DBtags(name=tags, pro=self))
 
     def get_tags(self):
@@ -152,74 +161,8 @@ class DBproject(db.Model, object):
         return ""
 
 
-class Project:
-
-    def __init__(self, name=None, num=0, who=None, description=None):
-        self.tag_list = []
-        self.name = name
-        self.process_list = []
-        self.num = num
-        self.description = description
-        self.who = who
-
-    def __repr__(self):
-        return f"Project {self.name}"
-
-    def get_id(self):
-        return self.name
-
-    def add_tag(self, tags, projectname):
-        logging.debug(f'Adding a tag to DB {tags}')
-
-        # if we are given a list
-        if isinstance(tags, list):
-            for i in tags:
-                db.session.add(DBtags(name=tags, pro=self))
-                self.tag_list.append(i)
-        else:
-            db.session.add(DBtags(name=tags, pro=self))
-            self.tag_list.append(tags)
-        db.session.commit()
-
-    def remove_tag(self, tag):
-        index = self.tag_list.index(tag)
-        del self.tag_list[index]
-
-    def remove_all_tags(self):
-        self.tag_list.clear()
-
-    def get_tags(self):
-        return self.tag_list
-
-    def get_tags_csv(self):
-
-        return ','.join(map(str, self.tag_list))
-
-    def set_name(self, name):
-        DBproject.query.filter_by(name=self.name).update(dict(name=name))
-        db.session.commit()
-        self.name = name
-
-    def get_name(self):
-        return self.name
-
-    def get_description(self):
-        """
-         gets the description
-        :return: str
-        """
-        return self.description
-
-    def add_process(self, name):
-        pro = Process(name)
-        self.process_list.append(pro)
-
-    def get_processes(self):
-        return self.process_list
-
-
-def get_db(name):
-    return DBproject.query.filter_by(name=name).first()
+def get_db(id):
+    return DBproject.query.filter_by(id=id).first()
 
 
 def add_project(name, user):
@@ -241,9 +184,28 @@ def get_projects(user):
     logging.debug('getting projects from db')
     # load all projects from db using user id filter
     data = DBproject.query.filter_by(author=user).all()
-    print(data)
+    # print(data)
     for item in data:
         logging.info(f"Project('{item.name}', '{item.id}', '{item.description}')")
-        project_list.append(Project(item.name, item.id, user, item.description))
+        project_list.append(item)
 
     return project_list
+
+
+def get_projects_json(user):
+    """
+
+    :rtype: object
+    """
+    # list of projects
+    project_list =[]
+    logging.debug('getting projects from db')
+    # load all projects from db using user id filter
+    data = DBproject.query.filter_by(author=user).all()
+    # print(data)
+    for item in data:
+        logging.info(f"Project('{item.name}', '{item.id}', '{item.description}')")
+        print(item.to_dict())
+        project_list.append(item.to_dict())
+
+    return json.dumps(project_list)
