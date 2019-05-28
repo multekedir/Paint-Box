@@ -40,6 +40,7 @@
                             class="fab fa-facebook-f mr-2"></i> Sign in with Facebook
                     </button>
                 </div>
+                <a href="{{ url_for('register') }}" style="margin: auto; padding: 0.5em;">I Don't have an account</a>
             </div>
         </div>
 {% endblock %}
@@ -47,5 +48,8 @@
 {% block script %}
     <!--static js files static/js/-->
     <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <script>
+        toggleSidebar()
+    </script>
 {% endblock %}
 

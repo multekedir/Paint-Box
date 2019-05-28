@@ -41,4 +41,29 @@
     margin-left: -300px;
 }
 
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -300px;
+    }
+
+    #sidebar.active {
+        margin-left: 0px;
+    }
+
+    #sidebarCollapse span {
+        display: none;
+    }
+
+    #content {
+        width: 100%;
+    }
+
+    #content.active {
+        width: calc(100% - 300px);
+    }
+
+    #sidebarCollapse span {
+        display: none;
+    }
+}
 

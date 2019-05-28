@@ -1,14 +1,12 @@
 import json
 
-from flask import render_template, request, redirect, url_for, flash, Response
-
+from flask import render_template, request, redirect, url_for, Response
+from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy.exc import IntegrityError
 
 from PaintBox import db, app, logging, DefaultSettings
 from PaintBox.modules import Project
 from PaintBox.modules.database import User
-
-from flask_login import login_user, current_user, logout_user, login_required
 
 projects = []
 
@@ -19,14 +17,14 @@ db.create_all()
 def main():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    return render_template('main.html', title='Home', img_uri=DefaultSettings.HOME_SCREEN, icon=DefaultSettings.ICON, project_name=DefaultSettings.PROJECT)
+    return render_template('main.html', title='Home', img_uri=DefaultSettings.HOME_SCREEN, icon=DefaultSettings.ICON,
+                           project_name=DefaultSettings.PROJECT)
 
 
 @app.route("/about", methods=['GET', 'POST'])
 def about():
     message = "Paint-Box is an application designed for tabletop hobbyists to help keep track of projects in one place."
     return render_template('about.html', message=message, user=current_user, title='About')
-
 
 
 @app.route("/home", methods=['GET', 'POST'])
@@ -90,10 +88,12 @@ def make_change(name):
 def project(name):
     return render_template('project.html', title='Project', project=Project.get_db(name), user=current_user)
 
+
 @app.route('/todo', methods=['GET', 'POST'])
 @login_required
 def todo():
     return render_template('todo_macro.html')
+
 
 @app.route('/add_tag/<int:num>', methods=['POST'])
 @login_required
@@ -162,15 +162,16 @@ def login():
 
     return render_template('login.html', title='Login', error=error)
 
+
 @app.route("/test", methods=['POST'])
 def test():
-
     data = {
         'added': True,
         'messages': "Project already exists "
     }
     js = json.dumps(data)
     return Response(js, status=200, mimetype='application/json')
+
 
 # @app.route("/test", methods=['POST'])
 # def test():
@@ -184,12 +185,11 @@ def test():
 #     return Response(js, status=200, mimetype='application/json')
 
 
-
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('about'))
+    return redirect(url_for('home'))
 
 
 @app.errorhandler(404)
