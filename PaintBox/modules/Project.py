@@ -1,40 +1,7 @@
 from sqlalchemy import UniqueConstraint
-from sqlalchemy.exc import IntegrityError
-import json
 from PaintBox import db, logging
-
 from datetime import datetime
-from typing import List
-
-
-class Process:
-    def __init__(self, name):
-        self.name = name
-        self.description = ""
-        self.img_url = ""
-
-    def set_name(self, name):
-        """
-        changes the name of the cls
-        :param name:
-        :return: None
-        """
-        self.name = name
-
-    def set_description(self, des):
-        self.description = des
-
-    def set_img(self, url):
-        self.img_url = url
-
-    def get_name(self):
-        return self.name
-
-    def get_description(self):
-        return self.description
-
-    def get_img(self):
-        return self.img_url
+import json
 
 
 class DBtags(db.Model):
@@ -53,6 +20,119 @@ class DBtags(db.Model):
         db.session.commit()
 
 
+# class DBPictures(db.Model):
+#     __tablename__ = 'pictures'
+#     id = db.Column(db.Integer, primary_key=True)
+#     filename = db.Column(db.String(20), nullable=False)
+#     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+#     # stages_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+#     description = db.Column(db.Text)
+
+class DBStage(db.Model):
+    __tablename__ = 'stage'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    todos = db.relationship('DBtodo', backref='stage', lazy=True)
+
+    __table_args__ = (UniqueConstraint('project_id', 'name', name='_name_project'),)
+
+    def __repr__(self):
+        return f"Project('{self.name}', '{self.project_id}')"
+
+    def get_id(self):
+        return self.id
+
+    def get_name(self):
+        return self.name
+
+    def complete_task(self, task_id):
+        task = DBtodo.query.filter_by(id=task_id).first()
+        task.complete()
+        db.session.commit()
+        print(f"{task.name} is {task.completed}")
+
+    def incomplete_task(self, task_id):
+        task = DBtodo.query.filter_by(id=task_id).first()
+        task.incomplete()
+        db.session.commit()
+        print(f"{task.name} is {task.completed}")
+
+    def add_task(self, name):
+
+        logging.debug(f'Adding a task to DB {name}')
+        # if we are given a list
+
+        # assert (tags not in old_tags), "Tag already exist"
+        task = DBtodo(name=name, stage=self)
+        db.session.add(task)
+        db.session.commit()
+        print('added task')
+        return task.id
+
+    def edit_task(self, name):
+
+        logging.debug(f'Editting a task to DB {name}')
+        # if we are given a list
+
+        # assert (tags not in old_tags), "Tag already exist"
+        task = DBtodo(name=name, stage=self)
+        db.session.add(task)
+        db.session.commit()
+        print('added task')
+        return task.id
+
+    def get_completed(self):
+        completed = []
+        taskid = []
+        task = DBtodo.query.filter_by(stage=self).all()
+        if task is not None:
+            for i in task:
+                if i.completed is True:
+                    completed.append(i.name)
+                    taskid.append(i.id)
+        return completed, taskid
+
+    def get_started(self):
+        started = []
+        taskid = []
+        task = DBtodo.query.filter_by(stage=self).all()
+        if task is not None:
+            for i in task:
+                if i.completed is False:
+                    started.append(i.name)
+                    taskid.append(i.id)
+        return started, taskid
+
+
+class DBtodo(db.Model):
+    __tablename__ = 'todo'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    completed = db.Column(db.Boolean, unique=False, nullable=False, default=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Project('{self.name}', '{self.project_id}')"
+
+    def complete(self):
+        self.completed = True
+        return True
+
+    def incomplete(self):
+        self.completed = False
+        return False
+
+    def delete(self):
+        logging.info(f"Deleting Tag {self.name}")
+        db.session.delete(self)
+        db.session.commit()
+
+
 class DBproject(db.Model, object):
     __tablename__ = 'project'
 
@@ -62,6 +142,7 @@ class DBproject(db.Model, object):
     description = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tags = db.relationship('DBtags', backref='pro', lazy=True)
+    stages = db.relationship('DBStage', backref='stage', lazy=True)
 
     __table_args__ = (UniqueConstraint('user_id', 'name', name='_name_user'),)
 
@@ -160,9 +241,31 @@ class DBproject(db.Model, object):
             return ','.join(map(str, self.get_tags))
         return ""
 
+    def add_stage(self, name):
+        logging.debug(f'Adding a stage to DB {name}')
+        old_tags = self.get_tags()
+        # if we are given a list
+
+        # assert (tags not in old_tags), "Tag already exist"
+        db.session.add(DBStage(name=name, stage=self))
+        db.session.commit()
+        print('added stage')
+
+    def get_stages(self):
+        stages_list = []
+        tags = DBStage.query.filter_by(stage=self).all()
+        if tags is not None:
+            for i in tags:
+                stages_list.append(i)
+        return stages_list
+
 
 def get_db(id):
     return DBproject.query.filter_by(id=id).first()
+
+
+def get_stage(id):
+    return DBStage.query.filter_by(id=id).first()
 
 
 def add_project(name, user):
@@ -198,7 +301,7 @@ def get_projects_json(user):
     :rtype: object
     """
     # list of projects
-    project_list =[]
+    project_list = []
     logging.debug('getting projects from db')
     # load all projects from db using user id filter
     data = DBproject.query.filter_by(author=user).all()

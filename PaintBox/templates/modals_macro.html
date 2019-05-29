@@ -1,0 +1,31 @@
+{% macro message(action_link) %}
+  <div id="message" class="modal fade"  role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <h3 id="message-header"></h3>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <p id="alert-message"></p>
+                    </div>
+                    <!-- Footer -->
+                    <div class="modal-footer modal-footer--mine">
+
+                        <button class="btn"   name="submit"
+                                type="submit" id="submit"
+                                project_id="{{ action_link.get_id() }}">
+                        </button>
+
+                        <button type="button" class="btn btn-default" id="dismiss">Close</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+{% endmacro %}

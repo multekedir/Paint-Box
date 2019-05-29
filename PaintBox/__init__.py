@@ -29,5 +29,6 @@ class DefaultSettings:
 
 
 from PaintBox import routes
+from PaintBox import task_routes
 
 print("Importing routs Done")

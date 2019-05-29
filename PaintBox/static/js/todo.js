@@ -1,35 +1,38 @@
-//Document is the DOM can be accessed in the console with document.window.
-// Tree is from the top, html, body, p etc.
-
-//Problem: User interaction does not provide the correct results.
-//Solution: Add interactivity so the user can manage daily tasks.
-//Break things down into smaller steps and take each step at a time.
-
-
-//Event handling, uder interaction is what starts the code execution.
+function showTodo(id) {
+	$('#todo_modal').modal('show');
+	$('#add_button').attr('stage_id', id);
+	get_started();
+	get_completed();
+}
 
 var taskInput=document.getElementById("new-task");//Add a new task.
-var addButton=document.getElementsByTagName("button")[0];//first button
+var addButton=document.getElementById("add_button");//first button
 var incompleteTaskHolder=document.getElementById("incomplete-tasks");//ul of #incomplete-tasks
 var completedTasksHolder=document.getElementById("completed-tasks");//completed-tasks
 
 
 //New task list item
-var createNewTaskElement=function(taskString){
+var createNewTaskElement=function(taskString, taskID){
 
-	var listItem=document.createElement("li");
+	let listItem=document.createElement("li");
+	listItem.setAttribute("task_id",taskID);
 
 	//input (checkbox)
-	var checkBox=document.createElement("input");//checkbx
+	let checkBox=document.createElement("input");//checkbx
+	checkBox.setAttribute("task_id",taskID);
 	//label
-	var label=document.createElement("label");//label
+	let label=document.createElement("label");//label
+	label.setAttribute("task_id",taskID);
 	//input (text)
-	var editInput=document.createElement("input");//text
+	let editInput=document.createElement("input");//text
+	editInput.setAttribute("task_id",taskID);
 	//button.edit
-	var editButton=document.createElement("button");//edit button
+	let editButton=document.createElement("button");//edit button
+	editButton.setAttribute("task_id",taskID);
 
 	//button.delete
-	var deleteButton=document.createElement("button");//delete button
+	let deleteButton=document.createElement("button");//delete button
+	deleteButton.setAttribute("task_id",taskID);
 
 	label.innerText=taskString;
 
@@ -54,47 +57,73 @@ var createNewTaskElement=function(taskString){
 }
 
 
-
 var addTask=function(){
 	console.log("Add Task...");
-	//Create a new list item with the text from the #new-task:
-	var listItem=createNewTaskElement(taskInput.value);
 
-	//Append listItem to incompleteTaskHolder
-	incompleteTaskHolder.appendChild(listItem);
-	bindTaskEvents(listItem, taskCompleted);
+	  let out = false;
+    $.ajax({
+        async:false,
+        type: "POST",
+        url: "/add_task/"+$('#add_button').attr('stage_id'),
+        cache: false,
+        data: {'name':taskInput.value},
+        success: function (response) {
+            console.log("success"+response['added']);
+            if (response['added'] != false) {
+                console.log(response['messages'])
+				//Create a new list item with the text from the #new-task:
+				let listItem=createNewTaskElement(taskInput.value, response['taskid']);
 
+				//Append listItem to incompleteTaskHolder
+				incompleteTaskHolder.appendChild(listItem);
+				bindTaskEvents(listItem, taskCompleted);
+                out = true;
+
+            }else {
+                document.getElementById('errors').innerHTML = response['messages'];
+                 document.getElementById('errors').classList.add('visible');
+                document.getElementById('errors').classList.remove('invisible')
+                console.log(response['messages'])
+            }
+
+        },
+        error: function (response) {
+            console.log(response);
+            out = false;
+        }
+
+    });
 	taskInput.value="";
+    return out;
+
 
 }
 
 //Edit an existing task.
 
 var editTask=function(){
-console.log("Edit Task...");
-console.log("Change 'edit' to 'save'");
+	console.log("Edit Task...");
+	console.log("Change 'edit' to 'save'");
+	this.innerText = "Save"
+	let listItem=this.parentNode;
 
+	let editInput=listItem.querySelector('input[type=text]');
+	let label=listItem.querySelector("label");
+	let containsClass=listItem.classList.contains("editMode");
+	//If class of the parent is .editmode
+	if(containsClass){
 
-var listItem=this.parentNode;
+	//switch to .editmode
+	//label becomes the inputs value.
+		label.innerText=editInput.value;
+		this.innerText = "Edit"
+	}else{
+		editInput.value=label.innerText;
+	}
 
-var editInput=listItem.querySelector('input[type=text]');
-var label=listItem.querySelector("label");
-var containsClass=listItem.classList.contains("editMode");
-		//If class of the parent is .editmode
-		if(containsClass){
-
-		//switch to .editmode
-		//label becomes the inputs value.
-			label.innerText=editInput.value;
-		}else{
-			editInput.value=label.innerText;
-		}
-
-		//toggle .editmode on the parent.
-		listItem.classList.toggle("editMode");
+	//toggle .editmode on the parent.
+	listItem.classList.toggle("editMode");
 }
-
-
 
 
 //Delete task.
@@ -111,40 +140,145 @@ var deleteTask=function(){
 
 //Mark task completed
 var taskCompleted=function(){
-		console.log("Complete Task...");
+	console.log("Complete Task...");
 
 	//Append the task list item to the #completed-tasks
 	var listItem=this.parentNode;
 	completedTasksHolder.appendChild(listItem);
-				bindTaskEvents(listItem, taskIncomplete);
+	bindTaskEvents(listItem, taskIncomplete);
+	$.ajax({
+        type: "POST",
+        url: "/complete_task/"+$('#add_button').attr('stage_id')+"/"+$(this).attr('task_id'),
+        cache: false,
+        data: {},
+        success: function (response) {
+            console.log("success "+response['added']);
+            if (response['completed'] != false) {
+            	console.log("Done")
 
+            }else {
+                document.getElementById('errors').innerHTML = response['messages'];
+                 document.getElementById('errors').classList.add('visible');
+                document.getElementById('errors').classList.remove('invisible')
+                console.log(response['messages'])
+            }
+
+        },
+        error: function (response) {
+            console.log(response);
+        }
+
+    });
 }
 
 
 var taskIncomplete=function(){
-		console.log("Incomplete Task...");
-//Mark task as incomplete.
+	console.log("Incomplete Task...");
+	//Mark task as incomplete.
 	//When the checkbox is unchecked
-		//Append the task list item to the #incomplete-tasks.
-		var listItem=this.parentNode;
+	//Append the task list item to the #incomplete-tasks.
+	var listItem=this.parentNode;
 	incompleteTaskHolder.appendChild(listItem);
-			bindTaskEvents(listItem,taskCompleted);
+	bindTaskEvents(listItem,taskCompleted);
+	$.ajax({
+        type: "POST",
+        url: "/incomplete_task/"+$('#add_button').attr('stage_id')+"/"+$(this).attr('task_id'),
+        cache: false,
+        data: {},
+        success: function (response) {
+            console.log("success "+response['added']);
+            if (response['completed'] != false) {
+            	console.log("Done")
+
+            }else {
+                document.getElementById('errors').innerHTML = response['messages'];
+                document.getElementById('errors').classList.add('visible');
+                document.getElementById('errors').classList.remove('invisible')
+                console.log(response['messages'])
+            }
+
+        },
+        error: function (response) {
+            console.log(response);
+        }
+
+    });
 }
 
 
+function get_completed() {
+	console.log("Getting completed Tasks...");
+	// clear all tasks
+	$("#completed-tasks").empty();
 
-var ajaxRequest=function(){
-	console.log("AJAX Request");
+    $.ajax({
+        type: "POST",
+        url: "/get_completed/"+$('#add_button').attr('stage_id'),
+        cache: false,
+        data: {},
+        success: function (response) {
+            console.log("success "+response['added']);
+            if (response['added'] != false) {
+            	let names = response['payload_name']
+				let ids = response['payload_id']
+                for (i = 0; i < response['payload_name'].length; i++) {
+  					let listItem=createNewTaskElement(names[i],ids[i]);
+					completedTasksHolder.appendChild(listItem);
+					bindTaskEvents(listItem, taskIncomplete);
+				}
+
+            }else {
+                document.getElementById('errors').innerHTML = response['messages'];
+                 document.getElementById('errors').classList.add('visible');
+                document.getElementById('errors').classList.remove('invisible')
+                console.log(response['messages'])
+            }
+
+        },
+        error: function (response) {
+            console.log(response);
+        }
+
+    });
 }
 
-//The glue to hold it all together.
 
+function get_started() {
+	console.log("Getting incomplete Tasks...");
+	// clear all tasks
+	$("#incomplete-tasks").empty();
 
-//Set the click handler to the addTask function.
-addButton.onclick=addTask;
-addButton.addEventListener("click",addTask);
-addButton.addEventListener("click",ajaxRequest);
+    $.ajax({
+        type: "POST",
+        url: "/get_started/"+$('#add_button').attr('stage_id'),
+        cache: false,
+        data: {},
+        success: function (response) {
+            console.log("success "+response['added']);
+            if (response['added'] != false) {
+            	let names = response['payload_name']
+				let ids = response['payload_id']
+                for (i = 0; i < response['payload_name'].length; i++) {
+  					let listItem=createNewTaskElement(names[i],ids[i]);
+					incompleteTaskHolder.appendChild(listItem);
+					bindTaskEvents(listItem, taskCompleted);
+				}
 
+            }else {
+                document.getElementById('errors').innerHTML = response['messages'];
+                 document.getElementById('errors').classList.add('visible');
+                document.getElementById('errors').classList.remove('invisible')
+                console.log(response['messages'])
+            }
+
+        },
+        error: function (response) {
+            console.log(response);
+        }
+
+    });
+	taskInput.value="";
+}
 
 var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
 	console.log("bind list item events");

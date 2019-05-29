@@ -39,6 +39,13 @@ def home():
     return render_template('index.html', title='Home', user=current_user, projects=projects)
 
 
+@app.route('/project/<name>', methods=['GET', 'POST'])
+@login_required
+def project(name):
+    pro = Project.get_db(name)
+    return render_template('project.html', title='Project', project=pro, stages=pro.get_stages(), user=current_user)
+
+
 @app.route("/add_project", methods=['POST'])
 @login_required
 def add_project():
@@ -49,6 +56,7 @@ def add_project():
     name = request.form.get('name')
     desc = request.form.get('desc')
     tags = request.form.get('tag')
+
     try:
 
         logging.debug("Adding name:%s description:  %s tag:  %s" % (name, desc, tags))
@@ -83,29 +91,80 @@ def make_change(name):
     return redirect(url_for('project', name=pro.id))
 
 
-@app.route('/project/<name>', methods=['GET', 'POST'])
+@app.route('/project/save_description/<id>', methods=['POST'])
 @login_required
-def project(name):
-    return render_template('project.html', title='Project', project=Project.get_db(name), user=current_user)
+def save_description(id):
+    # load project
+    pro = Project.get_db(id)
+
+    # load info from html form
+    desc = request.form['desc']
+    pro.update_project(pro.get_name(), ',', desc)
+    data = {
+        'changed': True,
+        'messages': "Project is changes ",
+        'redirect': url_for('project', name=id)
+    }
+    js = json.dumps(data)
+    return Response(js, status=200, mimetype='application/json')
 
 
-@app.route('/todo', methods=['GET', 'POST'])
+@app.route('/project/delete/<id>', methods=['POST'])
 @login_required
-def todo():
-    return render_template('todo_macro.html')
+def delete_description(id):
+    # load project
+    pro = Project.get_db(id)
+
+    pro.delete()
+
+    data = {
+        'delete': True,
+        'redirect': url_for('home')
+    }
+    js = json.dumps(data)
+    return Response(js, status=200, mimetype='application/json')
+
+
+@app.route('/add_stage/<id>', methods=['POST'])
+@login_required
+def add_stage(id):
+    project = Project.get_db(id)
+    data = {
+        'added': True,
+        'messages': "Project added :)"
+    }
+    name = request.form.get('name')
+
+    try:
+        project.add_stage(name)
+    except IntegrityError:
+        db.session.rollback()
+        data['added'] = False
+        data['messages'] = "Project already exists "
+
+    js = json.dumps(data)
+    return Response(js, status=200, mimetype='application/json')
+
+
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
+def acount():
+
+    if request.method == 'POST':
+        username = request.form.get("username")
+        firstname = request.form.get("firstname")
+        lastname = request.form.get("lastname")
+        email = request.form.get("email")
+        User.update(username, firstname, lastname, email, current_user)
+        return redirect(url_for('home'))
+
+    return render_template('acount.html', user=current_user)
 
 
 @app.route('/add_tag/<int:num>', methods=['POST'])
 @login_required
 def add_tag(num):
     projects[num].add_tag(request.form.get('tag'))
-    return redirect(url_for('project', num=num))
-
-
-@app.route('/add_process/<int:num>', methods=['POST'])
-@login_required
-def add_process(num):
-    projects[num].add_process(request.form.get('process'))
     return redirect(url_for('project', num=num))
 
 

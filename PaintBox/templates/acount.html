@@ -1,0 +1,54 @@
+
+{% from 'add_macro.html' import add_form %}
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block main %}
+      <div class="col-sm-9 col-md-7 col-lg-3 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Account</h5>
+            <form class="form-signin" action='/account' method="POST">
+                <!-- Name -->
+              <div class="form-label-group">
+                  <label class="control-label" for="inputFirstname">First Name</label>
+                  <input type="text" id="inputFirstName" name="firstname" value="{{ user.firstname }}" class="form-control" required autofocus>
+                  <label class="control-label" for="inputLastname">Last Name</label>
+                  <input type="text" id="inputLastName" name="lastname" value="{{ user.lastname }}" class="form-control" required autofocus>
+              </div>
+
+                <!-- Username -->
+              <div class="form-label-group">
+                  <label class="control-label" for="inputUsername">Username</label>
+                  <input type="text" id="inputUsername" name="username" value="{{ user.username }}" class="form-control" required autofocus>
+              </div>
+
+
+                <!-- E-mail -->
+                <div class="form-label-group">
+                    <label for="inputEmail">Email address</label>
+                    <input name="email" type="email" id="inputEmail" class="form-control" value="{{ user.email }}" required autofocus>
+                </div>
+                {% if error %}
+                   <div class="alert alert-danger" role="alert">
+                        <strong>Error:</strong><br>
+                       <small class=error>{{ error }}</small>
+                    </div>
+               {% endif %}
+
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Update</button>
+                <hr class="my-4">
+            </form>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block script %}
+    <!--static js files static/js/-->
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+    <script>
+        toggleSidebar()
+    </script>
+{% endblock %}

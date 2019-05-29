@@ -1,22 +1,19 @@
 /* Basic Style */
-body {
-  background: #fff;
+
+section .container {
+   background: #fff;
   color: #333;
-  font-family: Lato, sans-serif;
-}
-.container {
   display: block;
   width: 400px;
-  margin: 100px auto 0;
 }
-ul {
+.container ul {
   margin: 0;
   padding: 0;
 }
-li * {
+.container ul li * {
   float: left;
 }
-li, h3 {
+.container ul li, h3 {
   clear:both;
   list-style:none;
 }

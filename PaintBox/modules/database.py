@@ -34,6 +34,9 @@ class DBUser(db.Model, UserMixin):
     def change_firstname(self, firstname):
         self.firstname = firstname
 
+    def change_lastname(self, lastname):
+        self.lastname = lastname
+
     def change_email(self, email):
         self.email = email
 
@@ -45,6 +48,7 @@ class DBUser(db.Model, UserMixin):
 
     def is_active(self):
         return self.is_enabled
+
 
 
 def hash_password(password):
@@ -130,7 +134,7 @@ class User:
         return None
 
     @staticmethod
-    def update(username, firstname, lastname, email, password, password_confirm, user):
+    def update(username, firstname, lastname, email, user):
         """
 
         :param username:
@@ -142,7 +146,7 @@ class User:
         :return:
         """
 
-        assert check_password(password, password_confirm), "ERROR! Passwords don't match"
+        # assert check_password(password, password_confirm), "ERROR! Passwords don't match"
 
         if user.email is not email:
             user.change_email(email)
@@ -156,5 +160,4 @@ class User:
         if user.lastname is not lastname:
             user.change_lastname(lastname)
 
-        if check_hashed(user.password, password):
-            user.change_password(hash_password(password_confirm))
+        db.session.commit()
