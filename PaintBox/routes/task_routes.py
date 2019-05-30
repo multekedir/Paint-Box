@@ -32,10 +32,13 @@ def add_task(id):
     js = json.dumps(data)
     return Response(js, status=200, mimetype='application/json')
 
-@app.route('/edit_task/<id>', methods=['POST'])
+
+@app.route('/edit_task/<stageid>/<taskid>', methods=['POST'])
 @login_required
-def edit_task(id):
-    stage = Project.get_stage(id)
+def edit_task(stageid, taskid):
+    stage = Project.get_stage(stageid)
+    print("*"*1000)
+    print(stage)
     data = {
         'added': True,
         'messages': "Task added :)"
@@ -43,7 +46,7 @@ def edit_task(id):
     name = request.form['name']
 
     try:
-        stage.add_task(name)
+        stage.edit_task(taskid, name)
 
     except IntegrityError:
         db.session.rollback()

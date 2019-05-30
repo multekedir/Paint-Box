@@ -21,7 +21,7 @@ class DBStage(db.Model):
     __table_args__ = (UniqueConstraint('project_id', 'name', name='_name_project'),)
 
     def __repr__(self):
-        return f"Project('{self.name}', '{self.project_id}')"
+        return f"Stage('{self.name}', '{self.project_id}')"
 
     def get_id(self):
         return self.id
@@ -81,7 +81,9 @@ class DBStage(db.Model):
         :param newname: change task name to new name
         :return:
         """
+
         task = DBtodo.query.filter_by(id=task_id).first()
+        print(task_id)
         logging.info(f'Editing a task to DB {task}')
 
         task.set_name(newname)

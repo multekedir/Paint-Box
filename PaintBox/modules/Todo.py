@@ -15,7 +15,7 @@ class DBtodo(db.Model):
     stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'), nullable=False)
 
     def __repr__(self):
-        return f"Project('{self.name}', '{self.project_id}')"
+        return f"Project('{self.name}', '{self.stage_id}')"
 
     def set_name(self, newname):
         """
