@@ -85,7 +85,7 @@ def save_description(id):
 
 @app.route('/project/delete/<id>', methods=['POST'])
 @login_required
-def delete_description(id):
+def delete_project(id):
     """delete project """
     # load project
     pro = Project.get_db(id)

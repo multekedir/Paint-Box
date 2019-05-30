@@ -29,6 +29,13 @@ class DBStage(db.Model):
     def get_name(self):
         return self.name
 
+    def delete(self):
+        tags = DBtodo.query.filter_by(stage=self).all()
+        for i in tags:
+            i.delete()
+        db.session.delete(self)
+        db.session.commit()
+
     @staticmethod
     def complete_task(task_id):
         """

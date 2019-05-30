@@ -49,6 +49,8 @@ class DBproject(db.Model, object):
         # get a list of tags related to project
         for i in self.get_tag_dbs():
             i.delete()
+        for i in self.get_stage_dbs():
+            i.delete()
         db.session.delete(self)
         db.session.commit()
 
@@ -153,6 +155,18 @@ class DBproject(db.Model, object):
             for i in tags:
                 tag_list.append(i)
         return tag_list
+
+    def get_stage_dbs(self):
+        """
+
+        :return: list of db rows
+        """
+        stage_list = []
+        stages = DBStage.query.filter_by(stage=self).all()
+        if stages is not None:
+            for i in stages:
+                stage_list.append(i)
+        return stage_list
 
     def get_tags_csv(self):
         """
