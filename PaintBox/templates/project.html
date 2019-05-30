@@ -186,6 +186,20 @@
                     <div class="project">
                         <a  onclick="showTodo({{ item.get_id() }})" data-target="#todo_modal" >
                             <h2>{{ item.get_name() }}</h2>
+                            <p>
+                                <span style="
+                                            padding-left: 20px;
+                                            font-weight: bolder;
+                                        ">Started Tasks</span>
+                                <ul>
+
+                                  {% for task in item.get_started()[0] %}
+                                      <li style="padding: 5px">{{ task }}</li>
+                                {% endfor %}
+                                </ul>
+                            </p>
+
+
                         </a>
                     </div>
 
@@ -193,7 +207,7 @@
             </div>
         {% else %}
             <p>
-                You currently have on projects. Use + button to add a project.
+                You currently have on Stages. Use + button to add a project.
             </p>
         {% endif %}
     </div>

@@ -26,6 +26,15 @@ class DBtodo(db.Model):
         self.name = newname
         return self.name
 
+    def get_name(self):
+        """
+        gets the name task
+        :param newname: (str)
+        :return: (str)
+        """
+
+        return self.name
+
     def complete(self):
         """
         makes a task complete
