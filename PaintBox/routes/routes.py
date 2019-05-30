@@ -10,7 +10,7 @@ from PaintBox.modules import Project
 
 projects = []
 
-db.create_all()
+#db.create_all()
 
 
 @app.route("/", methods=['GET', 'POST'])

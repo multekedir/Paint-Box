@@ -20,6 +20,9 @@ app.config.from_object(Config)
 # Initiating Flask-SQLAlchemy
 db = SQLAlchemy(app)
 
+
+
+
 # hashing utilities for your application.
 bcrypt = Bcrypt(app)
 
