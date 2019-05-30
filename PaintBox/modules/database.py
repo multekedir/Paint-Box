@@ -50,7 +50,6 @@ class DBUser(db.Model, UserMixin):
         return self.is_enabled
 
 
-
 def hash_password(password):
     """
 
@@ -73,8 +72,12 @@ def check_hashed(password, newpassword):
 
 def check_password(password, password_confirm):
     """
-
-    :return:
+    password  verification
+    >>> check_password("pass", "pass")
+    True
+    :param password: (string)
+    :param password_confirm: (string)
+    :return: (bool)
     """
     patern = '^(?=\S{6,20}$)(?=.*?\d)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^A-Za-z\s0-9])'
     if password_confirm == password:
@@ -84,10 +87,14 @@ def check_password(password, password_confirm):
 
 
 class User:
+    """
+    User management
+    """
 
     @staticmethod
     def add_user(username, firstname, lastname, email, password, password_confirm):
         """
+        create user  and add it to the database
 
         :param username: str
         :param firstname: str
@@ -96,17 +103,14 @@ class User:
         :param password: str
         :return: bool
         """
-        # print("username: " + username)
-        # print("email: " + email)
-        # print("first name: " + firstname)
-        # print("first name: " + lastname)
-        # print("password " + password)
-        # print("Confirm " + password_confirm)
 
+        # check if password meets criteria
         assert check_password(password, password_confirm), "ERROR! Passwords don't match"
 
-        user = DBUser(username=username, firstname=firstname, lastname=lastname,
+        # create db row
+        user = DBUser(username=username, firstname=firstname.capitalize(), lastname=lastname.capitalize(),
                       email=email, password=hash_password(password))
+        # add row to db and commit
         db.session.add(user)
         db.session.commit()
         return True
@@ -114,6 +118,8 @@ class User:
     @staticmethod
     def get_user(email):
         """
+        search user in db using email
+
         :param email: str
         :return: DBUser
         """
@@ -121,6 +127,7 @@ class User:
 
     def login(self, email, password):
         """
+        login user
 
         :param email: str
         :param password: str
@@ -136,13 +143,12 @@ class User:
     @staticmethod
     def update(username, firstname, lastname, email, user):
         """
+        change information
 
         :param username:
         :param firstname:
         :param lastname:
         :param email:
-        :param password:
-        :param password_confirm:
         :return:
         """
 
@@ -155,9 +161,9 @@ class User:
             user.change_username(username)
 
         if user.firstname is not firstname:
-            user.change_firstname(firstname)
+            user.change_firstname(firstname.capitalize())
 
         if user.lastname is not lastname:
-            user.change_lastname(lastname)
+            user.change_lastname(lastname.capitalize())
 
         db.session.commit()

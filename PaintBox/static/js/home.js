@@ -110,7 +110,7 @@ $(document).ready(function () {
         if ( window.innerWidth < 769){
             toggleSidebar();
         }
-
+        window.location.href = "/"
     });
 
     $('#editDescription').on('click',divClicked);

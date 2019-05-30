@@ -20,19 +20,19 @@ section .container {
 input, button {
   outline: none;
 }
-button {
-  background: none;
-  border: 0px;
-  color: #888;
-  font-size: 15px;
-  width: 60px;
-  margin: 10px 0 0;
-  font-family: Lato, sans-serif;
-  cursor: pointer;
-}
-button:hover {
-  color: #333;
-}
+/*button {*/
+/*  background: none;*/
+/*  border: 0px;*/
+/*  color: #888;*/
+/*  font-size: 15px;*/
+/*  width: 60px;*/
+/*  margin: 10px 0 0;*/
+/*  font-family: Lato, sans-serif;*/
+/*  cursor: pointer;*/
+/*}*/
+/*button:hover {*/
+/*  color: #333;*/
+/*}*/
 /* Heading */
 h3,
 label[for='new-task'] {
@@ -44,18 +44,19 @@ label[for='new-task'] {
   margin: 0;
   text-transform: uppercase;
 }
-input[type="text"] {
-  margin: 0;
-  font-size: 18px;
-  line-height: 18px;
-  height: 18px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 6px;
-  font-family: Lato, sans-serif;
-  color: #888;
-}
+
+/*input[type="text"] {*/
+/*  margin: 0;*/
+/*  font-size: 18px;*/
+/*  line-height: 18px;*/
+/*  height: 18px;*/
+/*  padding: 10px;*/
+/*  border: 1px solid #ddd;*/
+/*  background: #fff;*/
+/*  border-radius: 6px;*/
+/*  font-family: Lato, sans-serif;*/
+/*  color: #888;*/
+/*}*/
 input[type="text"]:focus {
   color: #333;
 }
