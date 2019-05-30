@@ -101,8 +101,6 @@ var addTask = function () {
 //Edit an existing task.
 
 function save_edit(newtext, task_id) {
-    console.log("Saving Task...");
-
     let out = false;
     $.ajax({
         async: false,
@@ -114,12 +112,7 @@ function save_edit(newtext, task_id) {
             console.log("success" + response['added']);
             if (response['added'] != false) {
                 console.log(response['messages']);
-                //Create a new list item with the text from the #new-task:
-                let listItem = createNewTaskElement(taskInput.value, response['taskid']);
 
-                //Append listItem to incompleteTaskHolder
-                incompleteTaskHolder.appendChild(listItem);
-                bindTaskEvents(listItem, taskCompleted);
                 out = true;
 
             } else {
@@ -170,12 +163,36 @@ var editTask = function () {
 //Delete task.
 var deleteTask = function () {
     console.log("Delete Task...");
+    let out = false;
+    $.ajax({
+        type: "POST",
+        url: "/delete_task/" + $('#add_button').attr('stage_id') + "/" + $(this).attr('task_id'),
+        cache: false,
+        data: {'name': $(this).attr('task_id')},
+        success: function (response) {
+            console.log("success " + response['added']);
+            if (response['added'] != false) {
+                console.log(response['messages']);
+                out = true;
 
+            } else {
+                document.getElementById('errors').innerHTML = response['messages'];
+                document.getElementById('errors').classList.add('visible');
+                document.getElementById('errors').classList.remove('invisible');
+                console.log(response['messages'])
+            }
+        },
+        error: function (response) {
+            console.log(response);
+            out = false;
+        }
+
+    });
     var listItem = this.parentNode;
     var ul = listItem.parentNode;
     //Remove the parent list item from the ul.
     ul.removeChild(listItem);
-
+    return out;
 };
 
 
@@ -352,9 +369,3 @@ for (var i = 0; i < completedTasksHolder.children.length; i++) {
     bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
 }
 
-
-// Issues with usabiliy don't get seen until they are in front of a human tester.
-
-//prevent creation of empty tasks.
-
-//Shange edit to save when you are in edit mode.

@@ -37,11 +37,10 @@ def add_task(id):
 @login_required
 def edit_task(stageid, taskid):
     stage = Project.get_stage(stageid)
-    print("*"*1000)
-    print(stage)
+
     data = {
         'added': True,
-        'messages': "Task added :)"
+        'messages': "Task edited :)"
     }
     name = request.form['name']
 
@@ -52,6 +51,20 @@ def edit_task(stageid, taskid):
         db.session.rollback()
         data['added'] = False
         data['messages'] = "Task already exists "
+
+    js = json.dumps(data)
+    return Response(js, status=200, mimetype='application/json')
+
+
+@app.route('/delete_task/<stageid>/<taskid>', methods=['POST'])
+@login_required
+def delete_task(stageid, taskid):
+    stage = Project.get_stage(stageid)
+
+    data = {
+        'added': stage.delete_task(taskid),
+        'messages': "Task deleted :)"
+    }
 
     js = json.dumps(data)
     return Response(js, status=200, mimetype='application/json')
