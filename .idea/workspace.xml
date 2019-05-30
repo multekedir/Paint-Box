@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69e7fdfd-3322-4115-93b8-27b62e6423cf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/PaintBox/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaintBox/routes/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/routes/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PaintBox/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PaintBox/templates/project.html" beforeDir="false" afterPath="$PROJECT_DIR$/PaintBox/templates/project.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,8 +64,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/PaintBox/templates/project.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="209" column="44" selection-start-line="209" selection-start-column="44" selection-end-line="209" selection-end-column="44" />
+            <state relative-caret-position="221">
+              <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -389,12 +385,12 @@
       <workItem from="1558037890909" duration="31616000" />
       <workItem from="1558511129919" duration="42000" />
       <workItem from="1558514638114" duration="86481000" />
-      <workItem from="1559008128241" duration="92981000" />
+      <workItem from="1559008128241" duration="93224000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="434509000" />
+    <option name="totallyTimeSpent" value="434752000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -409,7 +405,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.717496" visible="true" weight="0.12846482" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.717496" visible="true" weight="0.12846482" />
       <window_info id="Structure" order="1" sideWeight="0.28250402" side_tool="true" weight="0.12846482" />
       <window_info id="Favorites" order="2" sideWeight="0.5005417" side_tool="true" weight="0.17857143" />
       <window_info id="Team" order="3" sideWeight="0.28250402" side_tool="true" weight="0.12846482" />
@@ -417,14 +413,14 @@
       <window_info active="true" anchor="bottom" id="Inspection Results" order="1" visible="true" weight="0.32822758" />
       <window_info anchor="bottom" id="Message" order="2" />
       <window_info anchor="bottom" id="Find" order="3" weight="0.32827735" />
-      <window_info anchor="bottom" id="Run" order="4" sideWeight="0.4989339" visible="true" weight="0.32502708" />
+      <window_info anchor="bottom" id="Run" order="4" sideWeight="0.4989339" weight="0.32502708" />
       <window_info anchor="bottom" id="Debug" order="5" weight="0.39869988" />
       <window_info anchor="bottom" id="Cvs" order="6" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="8" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32936078" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49946696" weight="0.32827735" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49946696" visible="true" weight="0.32827735" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5010661" side_tool="true" weight="0.32502708" />
       <window_info anchor="bottom" id="Python Console" order="13" sideWeight="0.49946696" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="14" show_stripe_button="false" />
@@ -868,8 +864,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PaintBox/templates/project.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="209" column="44" selection-start-line="209" selection-start-column="44" selection-end-line="209" selection-end-column="44" />
+        <state relative-caret-position="221">
+          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
         </state>
       </provider>
     </entry>

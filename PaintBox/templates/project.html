@@ -20,7 +20,7 @@
 
     <div style="width: 100%; flex-direction: column;">
         <div class="project_info">
-            <h1>Project {{ project.get_name() }}  </h1>
+            <h1>{{ project.get_name() }}  </h1>
             tags:
             <table style=" padding: 0; margin: 0; ">
                 {% for tag in project.get_tags() %}
