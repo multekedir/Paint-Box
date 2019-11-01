@@ -28,7 +28,7 @@ public==2019.3.22
 pycodestyle==2.5.0
 pycparser==2.19
 pylint==2.3.1
-python-engineio==3.5.0
+python-engineio==3.8.2.post1
 query-string==2019.3.22
 request==2019.3.22
 requests==2.21.0
