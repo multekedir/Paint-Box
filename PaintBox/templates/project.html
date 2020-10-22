@@ -1,6 +1,7 @@
 {% from 'sidebar_macro.html' import project_view_sidebar %}
 {% from 'modals_macro.html' import message %}
 {% from 'todo_macro.html' import todo %}
+{% from 'files_macro.html' import filelist %}
 {% extends "base.html" %}
 
 {% block title %} project {{ project.get_name() }} {% endblock %}
@@ -135,7 +136,7 @@
 
                     <!-- Body -->
                     <div class="modal-body">
-                        <form id="uploadFileForm" onsubmit="return  addProject()">
+                        <form id="uploadFileForm" action='/upload' method="POST" enctype="multipart/form-data">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -147,11 +148,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="tag">Project Tags</label>
-                                <input type="text" class="form-control" id="tag"
-                                        {#                                   value="{{ project.get_tags_csv() }}"#}
-                                       name="tag" aria-describedby="tagHelp">
-                                <small id="tagHelp" class="form-text text-muted">tag 1, tag 2, tag 3</small>
+                                <label for="stage">Stage</label>
+                                  <select id="stage" class="form-control">
+                                    <option name="stage"  selected>Choose...</option>
+                                       {% for item in stages %}
+                                           <option> {{ item.get_name() }}</option>
+                                      {% endfor %}
+
+                                  </select>
                             </div>
                             <div class="form-group">
                                 <label for="desc">Project Description</label>
@@ -210,6 +214,10 @@
                 You currently have no stages. Use “Add Project” button to add a project.
             </p>
         {% endif %}
+
+
+            {{ filelist() }}
+
     </div>
 {% endblock %}
 

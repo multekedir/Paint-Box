@@ -4,13 +4,14 @@ from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 
 
-from PaintBox import db, app, logging, DefaultSettings
+from PaintBox import app, logging, DefaultSettings
 from PaintBox.modules import Project
+
+
 
 
 projects = []
 
-#db.create_all()
 
 
 @app.route("/", methods=['GET', 'POST'])

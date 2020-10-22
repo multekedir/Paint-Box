@@ -36,8 +36,9 @@
                     <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
                             class="fab fa-google mr-2"></i> Sign in with Google
                     </button>
-                    <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i
-                            class="fab fa-facebook-f mr-2"></i> Sign in with Facebook
+                    <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"
+                    onclick="javascript:window.location.href = '{{ url_for("oauth_authorize",provider ="google")}}';">
+                        <i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook
                     </button>
                 </div>
                 <a href="{{ url_for('register') }}" style="margin: auto; padding: 0.5em;">I Don't have an account</a>

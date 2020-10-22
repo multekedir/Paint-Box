@@ -1,7 +1,4 @@
 # Byte-compiled / optimized / DLL files
-__pycache__/
-
-
 
 # Distribution / packaging
 bin/
@@ -25,6 +22,9 @@ pip-delete-this-directory.txt
 # Flask stuff:
 instance/
 .webassets-cache
+venv
+__pycache__
+.env
 
 # pyenv
 .python-version

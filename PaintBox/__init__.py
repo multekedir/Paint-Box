@@ -7,15 +7,23 @@ from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
-
+from config import Config, Bucket
+import boto3
 import logging
+
+s3_resource = boto3.resource(
+   "s3",
+   aws_access_key_id=Bucket.ACCESS_KEY,
+   aws_secret_access_key=Bucket.SECRET_KEY
+)
 
 # setlogging information
 logging.basicConfig(level=logging.FATAL)
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+
 
 # Initiating Flask-SQLAlchemy
 db = SQLAlchemy(app)
@@ -39,7 +47,10 @@ class DefaultSettings:
     INFO = "Paint-Box is an application designed for tabletop hobbyists to help keep track of projects in one place."
 
 
-from PaintBox.routes import routes, task_routes, project_routes, user_routes
+
+from PaintBox.routes import routes, task_routes, project_routes, user_routes, document_routes
+
+db.create_all()
 
 
 print("Importing routs Done")

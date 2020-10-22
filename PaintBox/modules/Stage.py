@@ -4,6 +4,7 @@ from PaintBox import db, logging
 from sqlalchemy import UniqueConstraint
 
 from PaintBox.modules.Todo import DBtodo
+# from PaintBox.modules.Document import DBDocument
 
 
 class DBStage(db.Model):
@@ -17,6 +18,8 @@ class DBStage(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     todos = db.relationship('DBtodo', backref='stage', lazy=True)
+    # documents = db.relationship('DBDocument', backref='document', lazy=True)
+
 
     __table_args__ = (UniqueConstraint('project_id', 'name', name='_name_project'),)
 
@@ -84,7 +87,7 @@ class DBStage(db.Model):
         """
         changes the name of a task
 
-        :param taskid: id of a task
+        :param task_id: id of a task
         :param newname: change task name to new name
         :return:
         """

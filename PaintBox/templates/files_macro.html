@@ -1,0 +1,19 @@
+{% macro filelist() %}
+    <h3>Files</h3>
+    <hr>
+    {{ files }}
+      <table class="table table-striped">
+        <tr>
+          <th>Filename</th>
+          <th>Last Modified</th>
+          <th>Type</th>
+        </tr>
+        {% for f in files %}
+        <tr>
+          <td>{{ f.key }}</td>
+          <td>{{ f.last_modified | datetimeformat }}</td>
+          <td>{{ f.key | file_type }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+{% endmacro %}

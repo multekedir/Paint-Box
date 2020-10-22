@@ -5,6 +5,7 @@ from datetime import datetime
 from PaintBox.modules.Stage import DBStage
 from PaintBox.modules.Tag import DBTag
 
+
 import json
 
 
@@ -18,6 +19,7 @@ class DBproject(db.Model, object):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tags = db.relationship('DBTag', backref='pro', lazy=True)
     stages = db.relationship('DBStage', backref='stage', lazy=True)
+    # documents = db.relationship('DBDocument', backref='doc', lazy=True)
 
     __table_args__ = (UniqueConstraint('user_id', 'name', name='_name_user'),)
 

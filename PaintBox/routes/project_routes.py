@@ -1,5 +1,6 @@
 import json
 
+import boto3
 from flask import render_template, request, Response, redirect, url_for
 from flask_login import current_user, login_required
 
@@ -8,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from PaintBox import db, app, logging
 
 from PaintBox.modules import Project
+from config import Bucket
 
 
 @app.route('/project/<name>', methods=['GET', 'POST'])
@@ -15,7 +17,11 @@ from PaintBox.modules import Project
 def project(name):
     """project info """
     pro = Project.get_db(name)
-    return render_template('project.html', title='Project', project=pro, stages=pro.get_stages(), user=current_user)
+    s3_resource = boto3.resource('s3')
+    my_bucket = s3_resource.Bucket(Bucket.S3_BUCKET)
+    summaries = my_bucket.objects.all()
+    print(my_bucket)
+    return render_template('project.html', title='Project', project=pro, stages=pro.get_stages(), user=current_user,files=summaries)
 
 
 @app.route("/add_project", methods=['POST'])
